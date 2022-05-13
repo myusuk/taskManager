@@ -11,7 +11,7 @@ public class TaskManagerApplication {
 	
 	@GetMapping("/")
 	public String hello() {
-		return "Hello world";
+		return "Hello Spring";
 	}
 
 	public static void main(String[] args) {
