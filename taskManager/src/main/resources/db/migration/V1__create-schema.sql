@@ -1,0 +1,1 @@
+CREATE TABLE programminglanguage(id INT PRIMARY KEY AUTO_INCREMENT, programlanguage VARCHAR(30));
