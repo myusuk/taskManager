@@ -6,9 +6,9 @@
     <title>Task Manager</title>
 </head>
 <body>
-	<div layout:fragment="content" class="col-6" style="float:left">
+	<div layout:fragment="content" class="container col-10" style="float:left">
 		<h2>プログラミング</h2>
-		<label>言語一覧</label>
+		<label>言語：</label>
 		<ul th:each="programList :${languageList}">
 			<li th:text="${programList.programLanguage}">
 			</li>

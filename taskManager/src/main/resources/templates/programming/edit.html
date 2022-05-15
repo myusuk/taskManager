@@ -6,7 +6,7 @@
     <title>Task Manager</title>
 </head>
 <body>
-	<div layout:fragment="content" class="col-6" style="float:left">
+	<div layout:fragment="content" class="container col-10" style="float:left">
 		<h2>プログラミング</h2>
 		<p>編集</p>
 		<form th:action="@{/programming/edit}" th:object="${systemForm}" class="form-horizontal" method="post">
