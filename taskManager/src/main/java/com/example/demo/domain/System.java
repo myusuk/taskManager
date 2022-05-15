@@ -17,6 +17,7 @@ import lombok.ToString;
 @Table(name = "system")
 public class System {
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String systemName;
 	
@@ -24,3 +25,7 @@ public class System {
     @JoinColumn(nullable = true, name = "language_id")
     private ProgrammingLanguage languageId;
 }
+
+
+
+
