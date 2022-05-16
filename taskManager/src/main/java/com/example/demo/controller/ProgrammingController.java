@@ -2,6 +2,8 @@ package com.example.demo.controller;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,13 +41,18 @@ public class ProgrammingController {
 	
 	
 	@GetMapping
-	public String programming(Model model) {
+	public String programming(Model model,
+			@RequestParam(defaultValue="1") ProgrammingLanguage id){
 		List<ProgrammingLanguage> languageList = programmingLanguageService.findAll();
-		List<System> systemList = systemService.findAll();
-		model.addAttribute("languageList", languageList);
-		model.addAttribute("systemList", systemList);
 		
-		model.addAttribute("ee", systemService.findOne(1));
+		
+		List<System> systemList = systemService.findAll();
+		Stream<System> stream = systemList.stream();
+		stream = stream.filter(m -> m.getLanguageId() == id);
+		
+		model.addAttribute("languageList", languageList);
+		model.addAttribute("systemList", stream.collect(Collectors.toList()));
+		
 		
 		return "programming/index";
 	}
@@ -78,7 +85,7 @@ public class ProgrammingController {
     @PostMapping(path = "create")
     String create(@Validated SystemForm form, BindingResult result, Model model) {
         if (result.hasErrors()) {
-            return programming(model);
+            //return programming(model, 1);
         }
         System system = new System();
         BeanUtils.copyProperties(form, system);

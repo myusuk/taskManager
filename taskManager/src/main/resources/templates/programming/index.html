@@ -8,12 +8,12 @@
 <body>
 	<div layout:fragment="content" class="container col-10" style="float:left">
 		<h2>プログラミング</h2>
+		
 		<label>言語：</label>
-		<ul th:each="programList :${languageList}">
-			<li th:text="${programList.programLanguage}">
-			</li>
-		</ul>
-			
+		<span th:each="language: ${languageList}">
+			<a th:href="@{/programming(id=${language.id})}" th:text="${language.programLanguage}" 
+					class="btn btn-outline-success"  name="id" th:value="${language.id}" id="id"/>
+		</span>
 		<table class="table table-striped table-bordered table-condensed">
         	<tr>
                 <th>ID</th>
