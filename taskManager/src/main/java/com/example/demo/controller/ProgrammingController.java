@@ -1,5 +1,8 @@
 package com.example.demo.controller;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -21,6 +24,7 @@ import com.example.demo.domain.ProgrammingLanguage;
 import com.example.demo.service.ProgrammingLanguageService;
 import com.example.demo.domain.System;
 import com.example.demo.service.SystemService;
+import com.example.demo.util.DateChenger;
 import com.example.demo.web.SystemForm;
 
 @Controller
@@ -32,6 +36,7 @@ public class ProgrammingController {
 	
 	@Autowired
 	SystemService systemService;
+	
 	
 	@ModelAttribute
     SystemForm setUpForm() {
@@ -83,15 +88,26 @@ public class ProgrammingController {
     }
     
     @PostMapping(path = "create")
-    String create(@Validated SystemForm form, BindingResult result, Model model) {
+    String create(@RequestParam String start_date, @Validated SystemForm form, BindingResult result, Model model) throws Exception {
         if (result.hasErrors()) {
-            //return programming(model, 1);
+            return programming(model, programmingLanguageService.findOne(1).get());
         }
         System system = new System();
+        
+        Date date = DateChenger.datechanger(start_date);
+        
         BeanUtils.copyProperties(form, system);
+        
+        
+        system.setStart_date(date);
+        system.setEnd_date(null);
         systemService.create(system);
+        model.addAttribute("a", start_date);
         return "redirect:/programming";
     }
+    
+    
+    
 	
 
 }

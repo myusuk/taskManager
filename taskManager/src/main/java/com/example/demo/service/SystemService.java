@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.domain.System;
 import com.example.demo.repository.SystemRepository;
+
 @Service
 @Transactional
 public class SystemService {
