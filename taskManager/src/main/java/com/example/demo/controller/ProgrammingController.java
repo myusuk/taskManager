@@ -1,7 +1,5 @@
 package com.example.demo.controller;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -23,7 +21,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.example.demo.domain.ProgrammingLanguage;
 import com.example.demo.service.ProgrammingLanguageService;
 import com.example.demo.domain.System;
+import com.example.demo.domain.Task;
 import com.example.demo.service.SystemService;
+import com.example.demo.service.TaskService;
 import com.example.demo.util.DateChenger;
 import com.example.demo.web.SystemForm;
 
@@ -37,27 +37,31 @@ public class ProgrammingController {
 	@Autowired
 	SystemService systemService;
 	
+	@Autowired
+	TaskService taskService;
 	
 	@ModelAttribute
     SystemForm setUpForm() {
         return new SystemForm();
     }
 	
-	
-	
 	@GetMapping
 	public String programming(Model model,
 			@RequestParam(defaultValue="1") ProgrammingLanguage id){
 		List<ProgrammingLanguage> languageList = programmingLanguageService.findAll();
 		
-		
 		List<System> systemList = systemService.findAll();
-		Stream<System> stream = systemList.stream();
-		stream = stream.filter(m -> m.getLanguageId() == id);
+		Stream<System> systemStream = systemList.stream();
+		systemStream = systemStream.filter(m -> m.getLanguageId() == id);
+		
+		List<Task> taskList = taskService.findAll();
+		Stream<Task> taskStream = taskList.stream();
+		taskStream = taskStream.filter(n -> n.getSystemId().getLanguageId() == id);
+		
 		
 		model.addAttribute("languageList", languageList);
-		model.addAttribute("systemList", stream.collect(Collectors.toList()));
-		
+		model.addAttribute("systemList", systemStream.collect(Collectors.toList()));
+		model.addAttribute("taskList", taskStream.collect(Collectors.toList()));
 		
 		return "programming/index";
 	}
@@ -93,12 +97,8 @@ public class ProgrammingController {
             return programming(model, programmingLanguageService.findOne(1).get());
         }
         System system = new System();
-        
         Date date = DateChenger.datechanger(start_date);
-        
         BeanUtils.copyProperties(form, system);
-        
-        
         system.setStart_date(date);
         system.setEnd_date(null);
         systemService.create(system);
@@ -106,8 +106,4 @@ public class ProgrammingController {
         return "redirect:/programming";
     }
     
-    
-    
-	
-
 }
