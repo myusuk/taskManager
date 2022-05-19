@@ -93,8 +93,8 @@ public class ProgrammingController {
     
     @PostMapping(path = "create")
     String create(@RequestParam String start_date, @Validated SystemForm form, BindingResult result, Model model) throws Exception {
-        if (result.hasErrors()) {
-            return programming(model, programmingLanguageService.findOne(1).get());
+        if (result.hasErrors() | start_date == "") {
+            return "redirect:/programming";
         }
         System system = new System();
         Date date = DateChenger.datechanger(start_date);
@@ -102,7 +102,6 @@ public class ProgrammingController {
         system.setStart_date(date);
         system.setEnd_date(null);
         systemService.create(system);
-        model.addAttribute("a", start_date);
         return "redirect:/programming";
     }
     

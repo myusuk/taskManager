@@ -15,9 +15,9 @@
         		</button>
         	<tr>
                 <th>ID</th>
+                <th>システム名</th>
                 <th>featureID</th>
                 <th>概要</th>
-                <th>システム名</th>
                 <th>言語</th>
                 <th>開始日</th>
                 <th>完了日</th>
@@ -25,9 +25,9 @@
             </tr>
             <tr th:each="task : ${taskList}">
                 <td th:text="${task.id}"></td>
+                <td th:text="${task.systemId.systemName}"></td>
                 <td th:text="${task.featureNumber}"></td>
                 <td th:text="${task.overview}"></td>
-                <td th:text="${task.systemId.systemName}"></td>
                 <td th:text="${task.systemId.languageId.programLanguage}"></td>
                 <td th:text="${task.start_date}"></td>
                 <td th:text="${task.end_date == null} ? '-' : ${task.end_date}"></td>
@@ -37,7 +37,7 @@
         			</button>
                 </td>
                 <td>
-                	<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modal-delete">
+                	<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modal-delete" data-whatever="@mdo">
         				削除
         			</button>
                 </td>
@@ -48,19 +48,55 @@
         <div class="modal fade" id="modal-registar" tabindex="-1" aria-labelledby="modal" area-hidden="true">
         	<div class="modal-dialog">
         		<div class="modal-content">
-        			<div class="modal-header">
-        				<h5 class="modal-title" id="modal">
-        					Modal Title a
-        				</h5>
-        				<button type="button" class="btn-close" data-bs-dismiss="modal" area-label="Close"></button>
-        			</div>
-					<div class="modal-body">
-						<p>Modal Body　registar</p>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-						<button type="button" class="btn btn-primary">Save</button>
-					</div>
+        			<form th:action="@{/task-management}" method="post" th:object="${taskForm}" class="form-horizontal">
+        				 <fieldset>
+				            <div class="form-group">
+				            	<div class="modal-header">
+			        				<h5 class="modal-title" id="modal">
+			        					新規タスク登録
+			        				</h5>
+			        				<button type="button" class="btn-close" data-bs-dismiss="modal" area-label="Close"></button>
+			        			</div>
+			        			<div class="modal-body">
+			        				<div>
+						                	<label class="col-sm-2 control-label">システム名</label>
+						                <div class="col-sm-4">
+						                    <select name="systemId" th:field="*{systemId}" class="form-control">
+						                    	<option th:value="error" th:text="選択してください"></option>
+						                    	<option th:each="system: ${systemList}" th:value="${system.id}" th:text="${system.systemName}" th:field="*{systemId}">
+						                    </select>
+						                </div>
+			        				</div>
+			        				<div>						                
+							        	<label class="col-sm-2 control-label">featureID</label>
+						                <div class="col-sm-4">
+							                <input type="text" id="featureNumber" name="featureNumber" th:field="*{featureNumber}"
+			                           				class="form-control">
+						                </div>
+			        				</div>
+			        				<div>
+			        					<label class="col-sm-2 control-label">概要</label>
+			        					<div class="col-sm-12">
+							                <input type="text" id="overview" name="overview" th:field="*{overview}"
+			                           				class="form-control">
+						                </div>
+			        				</div>
+			        				<div>
+			        					<label for="start_date" class="col-sm-2 control-label">開始日</label>
+						                <div class="col-sm-4">
+						                    <input type="date" id="start_date" name="start_date" th:field="*{start_date}"
+						                           class="form-control"/>
+						                </div>
+			        				</div>
+			        			</div>
+					            <div class="modal-footer">
+					            	<button type="submit" class="btn btn-primary">OK</button>
+									<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+								</div>
+				            </div>
+        				 </fieldset>
+					            
+        			</form>
         		</div>
         	</div>
         </div>
@@ -91,9 +127,7 @@
         	<div class="modal-dialog">
         		<div class="modal-content">
         			<div class="modal-header">
-        				<h5 class="modal-title" id="modal">
-        					Modal Title c
-        				</h5>
+        				<h5 class="modal-title" id="modal">Modal Title c</h5>
         				<button type="button" class="btn-close" data-bs-dismiss="modal" area-label="Close"></button>
         			</div>
 					<div class="modal-body">
@@ -106,7 +140,6 @@
         		</div>
         	</div>
         </div>
-        
 	</div>
 </body>
 </html>
