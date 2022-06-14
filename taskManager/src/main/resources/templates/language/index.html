@@ -11,7 +11,7 @@
 		
 		<label>言語：</label>
 		<span th:each="language: ${languageList}">
-			<a th:href="@{/programming(id=${language.id})}" th:text="${language.programLanguage}" 
+			<a th:href="@{/language(id=${language.id})}" th:text="${language.language}" 
 					class="btn btn-outline-success"  name="id" th:value="${language.id}" id="id"/>
 		</span>
 		<table class="table table-striped table-bordered table-condensed">
@@ -27,9 +27,9 @@
             <tr th:each="system : ${systemList}">
                 <td th:text="${system.id}"></td>
                 <td th:text="${system.systemName}"></td>
-                <td th:text="${system.languageId.programLanguage}"></td>
-                <td th:text="${system.start_date}"></td>
-                <td th:text="${system.end_date == null} ? '-' : ${system.end_date}"></td>
+                <td th:text="${system.language.language}"></td>
+                <td th:text="${system.startDate}"></td>
+                <td th:text="${system.endDate == null} ? '-' : ${system.endDate}"></td>
                 <td>
                     <form th:action="@{/programming/edit}" method="get">
                         <input class="btn btn-secondary" type="submit" name="form" value="編集"/>
@@ -61,10 +61,10 @@
                 <td th:text="${task.id}"></td>
                 <td th:text="${task.featureNumber}"></td>
                 <td th:text="${task.overview}"></td>
-                <td th:text="${task.systemId.systemName}"></td>
-                <td th:text="${task.systemId.languageId.programLanguage}"></td>
-                <td th:text="${task.start_date}"></td>
-                <td th:text="${task.end_date == null} ? '-' : ${task.end_date}"></td>
+                <td th:text="${task.system.systemName}"></td>
+                <td th:text="${task.system.language.language}"></td>
+                <td th:text="${task.startDate}"></td>
+                <td th:text="${task.endDate == null} ? '-' : ${task.endDate}"></td>
                 <td>
                 </td>
                 <td>
@@ -72,7 +72,7 @@
             </tr>
         </table>
         
-        <form th:action="@{/programming/create}" th:object="${systemForm}" class="form-horizontal" method="post">
+        <form th:action="@{/language/create}" th:object="${systemForm}" class="form-horizontal" method="post">
 	        <fieldset>
 	            <legend>システム情報作成</legend>
 	            <div class="form-group" th:classappend="${#fields.hasErrors('systemName')}? 'has-error has-feedback'">
@@ -90,17 +90,17 @@
 						
 	                <div class="col-sm-4">
 	                	<select  class="col-sm-3" id="languageId" name="languageId" th:field="*{languageId}">
-	                		<option th:each="language: ${languageList}" th:value="${language.id}" th:text="${language.programLanguage}"></option>
+	                		<option th:each="language: ${languageList}" th:value="${language.id}" th:text="${language.language}"></option>
 	                	</select>
 	                </div>
 	            </div>
-	            <div class="form-group" th:classappend="${#fields.hasErrors('start_date')}? 'has-error has-feedback'">
+	            <div class="form-group" th:classappend="${#fields.hasErrors('startDate')}? 'has-error has-feedback'">
 	                <label for="start_date" class="col-sm-2 control-label">開始日</label>
 	
 	                <div class="col-sm-1">
-	                    <input type="date" id="start_date" name="start_date" th:field="*{start_date}"
+	                    <input type="date" id="start_date" name="start_date" th:field="*{startDate}"
 	                           class="form-control" value="太郎"/>
-	                    <span th:if="${#fields.hasErrors('start_date')}" th:errors="*{start_date}"
+	                    <span th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}"
 	                              class="help-block">error!</span>
 	                </div>
 	            </div>

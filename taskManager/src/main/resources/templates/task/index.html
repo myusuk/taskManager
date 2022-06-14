@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+			xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+			layout:decorate="layout">
+<head>
+    <title>Task Manager</title>
+</head>
+<body>
+	<div layout:fragment="content" class="container col-10" style="float:left">
+		<h2>タスク管理</h2>
+		<table class="table table-striped table-bordered table-condensed">
+			<legend th:text="タスク一覧"></legend>
+			   <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#task-modal"
+			   	data-type='register'>
+        			新規作成
+        		</button>
+        	<tr>
+                <th>ID</th>
+                <th>システム名</th>
+                <th>featureID</th>
+                <th>概要</th>
+                <th>言語</th>
+                <th>開始日</th>
+                <th>完了日</th>
+                <th colspan="2">編集</th>
+            </tr>
+            <tr th:each="task : ${taskList}">
+                <td th:text="${task.id}"></td>
+                <td th:text="${task.system.systemName}"></td>
+                <td th:text="${task.featureNumber}"></td>
+                <td th:text="${task.overview}"></td>
+                <td th:text="${task.system.language.language}"></td>
+                <td th:text="${task.startDate}"></td>
+                <td th:text="${task.endDate == null} ? '-' : ${task.endDate}"></td>
+                <td>
+                	<button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#task-modal"
+                		id="edit-button" th:data-id="${task.id}" data-type='edit'>
+        				編集
+        			</button>
+                </td>
+                <td>
+                	<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#task-modal" 
+                		th:data-id="${task.id}" data-type='delete'>
+        				削除
+        			</button>
+                </td>
+            </tr>
+        </table>
+        <p hidden th:text="${error}" id="error" style></p>
+        <div th:include="modal/task :: taskmodal"></div>
+	</div>
+	
+	<script layout:fragment="javascript" type="text/javascript">
+	
+	
+	</script>
+</body>
+</html>
