@@ -8,7 +8,6 @@ import javax.persistence.*;
 import com.example.demo.domain.System;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import com.example.demo.domain.Task;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,29 +19,35 @@ import lombok.ToString;
 @AllArgsConstructor
 @Entity
 @Table(name = "system")
-@ToString(exclude = "tasks")
+@ToString(exclude = "task")
 public class System {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
+	@Column(name="system_name")
 	private String systemName;
 	
 	@Temporal(TemporalType.DATE)
-	private Date start_date;
+	@Column(name="start_date")
+	private Date startDate;
 	
 	@Temporal(TemporalType.DATE)
-	private Date end_date;
+	@Column(name="end_date")
+	private Date endDate;
+	
+	@Column(name="language_id")
+	private Integer languageId;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(nullable = true, name = "language_id")
-    private ProgrammingLanguage languageId;
+    @JoinColumn(nullable = true, name = "language_id",  insertable = false, updatable = false)
+    private Language language;
 	
 	@JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "systemId")
-	private List<Task> tasks;
-	
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "system")
+	private List<Task> task;
+
 }
 
 

@@ -4,13 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-
-import com.example.demo.domain.System;
-
 import java.util.List;
-
 import javax.persistence.*;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Data
@@ -18,15 +13,17 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @AllArgsConstructor
 @Entity
 @Table(name = "programming_language")
-@ToString(exclude = "systems")
-public class ProgrammingLanguage {
+@ToString(exclude = "system")
+public class Language {
 	
 	@Id
 	private Integer id;
-	private String programLanguage;
+	
+	@Column(name="language")
+	private String language;
 	
 	@JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "languageId")
-	private List<System> systems;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "language")
+	private List<System> system;
 	
 }

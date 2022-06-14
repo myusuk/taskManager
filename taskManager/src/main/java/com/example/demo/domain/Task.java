@@ -2,6 +2,7 @@ package com.example.demo.domain;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -13,7 +14,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import com.example.demo.domain.System;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -30,20 +30,28 @@ public class Task {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
+	@Column(name="feature_number")
 	private String featureNumber;
 	
+	@Column(name="overview")
 	private String overview;
 	
 	@Temporal(TemporalType.DATE)
-	private Date start_date;
+	@Column(name="start_date")
+	private Date startDate;
 	
 	@Temporal(TemporalType.DATE)
-	private Date end_date;
+	@Column(name="end_date")
+	private Date endDate;
 	
+	@Column(name="report")
 	private String report;
 	
+	@Column(name="system_id")
+	private Integer systemId;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(nullable = true, name = "system_id")
-    private System systemId;
+    @JoinColumn(nullable = true, name = "system_id", insertable = false, updatable = false)
+    private System system;
 	
 }
