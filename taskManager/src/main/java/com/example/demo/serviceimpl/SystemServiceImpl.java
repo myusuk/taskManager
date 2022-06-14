@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.domain.System;
+import com.example.demo.domain.Task;
 import com.example.demo.repository.SystemRepository;
 import com.example.demo.service.SystemService;
 import com.example.demo.util.DateChange;
@@ -33,7 +34,7 @@ public class SystemServiceImpl implements SystemService {
 
 	@Override
 	public System getOne(Integer id) {
-		return systemRepository.findById(id).get();
+		return model2model(systemRepository.findById(id).get());
 	}
 
 	@Override
@@ -46,7 +47,7 @@ public class SystemServiceImpl implements SystemService {
 
 	@Override
 	public System update(SystemForm form) {
-		System system = new System();
+		System system = getOne(form.getSystemId());
    		BeanUtils.copyProperties(form, system);
 		system.setStartDate(datechange.stringToDate(form.getStartDate()));
 		return systemRepository.save(system);
@@ -55,6 +56,16 @@ public class SystemServiceImpl implements SystemService {
 	@Override
 	public void delete(Integer id) {
 		systemRepository.deleteById(id);
+	}
+	
+	private System model2model(System system) {
+		System s = new System();
+		s.setId(system.getId());
+		s.setSystemName(system.getSystemName());
+		s.setStartDate(system.getStartDate());
+		s.setEndDate(system.getEndDate());
+		s.setLanguageId(system.getLanguageId());
+		return s;
 	}
 
 }
