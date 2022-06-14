@@ -48,11 +48,11 @@
         </table>
         <p hidden th:text="${error}" id="error" style></p>
         <div th:include="modal/task :: taskmodal"></div>
+       
 	</div>
 	
-	<script layout:fragment="javascript" type="text/javascript">
-	
-	
-	</script>
+	<div layout:fragment="javascript">
+	 	<script th:src="@{js/task.js}"></script>
+	</div>
 </body>
 </html>

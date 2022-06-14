@@ -41,8 +41,16 @@
 		document.getElementById("startDate").disabled = true;
 	}
 	
+	function able(){
+		document.getElementById("systemId").disabled = false;
+		document.getElementById("featureNumber").disabled = false;
+		document.getElementById("overview").disabled = false;
+		document.getElementById("startDate").disabled = false;
+	}
 	
-	
+	$('#create-button').click(function(){
+		able();
+	})
 	
 	$('#task-modal').on('show.bs.modal', function (event) {
 		
