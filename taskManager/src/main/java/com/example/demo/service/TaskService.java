@@ -1,40 +1,22 @@
 package com.example.demo.service;
 
 import java.util.List;
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.domain.Task;
-import com.example.demo.repository.TaskRepository;
+import com.example.demo.web.TaskForm;
 
-@Service
-@Transactional
-public class TaskService {
+public interface TaskService {
 	
-	@Autowired
-	TaskRepository taskRepository;
-	
-	public List<Task> findAll() {
-        return taskRepository.findAll();
-    }
+	public List<Task> getAll();
 
-    public Optional<Task> findOne(Integer id) {
-        return taskRepository.findById(id);
-    }
+    public Task getOne(Integer id); 
 
-    public Task create(Task task) {
-        return taskRepository.save( task);
-    }
+    public Task create(TaskForm form) ;
+    	
+    public Task update(TaskForm  form);
 
-    public Task update(Task  task) {
-        return taskRepository.save( task);
-    }
-
-    public void delete(Integer id) {
-    	taskRepository.deleteById(id);
-    }
+    public void delete(Integer id);
+    
+    public List<Task> getProcessList();
 
 }
