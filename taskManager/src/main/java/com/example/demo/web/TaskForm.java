@@ -27,6 +27,8 @@ public class TaskForm {
 	@Size(min = 1, max = 127)
 	private String startDate;
 	
+	private String endDate;
 	
+	private String report;
 	
 }

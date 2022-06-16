@@ -82,4 +82,17 @@ public class TaskController {
 	public Task getOne(@PathVariable(value = "id") Integer id) {
 		return taskService.getOne(id);
 	}
+	
+	@GetMapping(path = "{id}")
+	public String page(Model model, @PathVariable(value = "id") Integer id) {
+		Task task = getOne(id);
+		List<System> systemList = systemService.getAll();
+		model.addAttribute("task", task);
+		model.addAttribute("systemList", systemList);
+		
+		if(!model.containsAttribute("taskForm")) {
+			model.addAttribute("taskForm", new TaskForm());
+		}
+		return "task/show";
+	}
 }
