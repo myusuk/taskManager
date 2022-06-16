@@ -52,6 +52,11 @@ public class TaskServiceImpl implements TaskService {
 		Task task = getOne(form.getTaskId());
 		BeanUtils.copyProperties(form, task);
 		task.setStartDate(datechange.stringToDate(form.getStartDate()));
+		if(Objects.nonNull(form.getEndDate())) {
+			task.setEndDate(datechange.stringToDate(form.getEndDate()));
+		}else {
+			task.setEndDate(null);
+		}
 		return taskRepository.save(task);
 	}
 
