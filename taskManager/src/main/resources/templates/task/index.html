@@ -56,7 +56,9 @@
 		        	</tbody>
 		        </table>
 			</div>
-	        <p hidden th:text="${error}" id="error" style></p>
+			<p hidden th:text="${formType}" id="formType"></p>
+			<p hidden th:text="${form}" id="sendId"></p>
+	        <p hidden th:text="${error}" id="error"></p>
 	        <div th:include="/modal/task/task :: taskmodal"></div>
 		</div>
 	</div>
