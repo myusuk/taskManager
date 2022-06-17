@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,9 +17,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.domain.Language;
 import com.example.demo.domain.System;
+import com.example.demo.domain.Task;
 import com.example.demo.service.LanguageService;
 import com.example.demo.service.SystemService;
+import com.example.demo.service.TaskService;
 import com.example.demo.web.SystemForm;
+import com.example.demo.web.TaskForm;
 
 @Controller
 @RequestMapping("system")
@@ -28,6 +32,8 @@ public class SystemController {
 	SystemService systemService;
 	@Autowired
 	LanguageService languageService;
+	@Autowired
+	TaskService taskService;
 	
 	@GetMapping
 	public String index(Model model) {
@@ -80,6 +86,22 @@ public class SystemController {
 	@GetMapping(path = "api/get-one/{id}")
 	public System getOne(@PathVariable(value = "id") Integer id) {
 		return systemService.getOne(id);
+	}
+	
+	@GetMapping(path = "{id}")
+	public String page(Model model, @PathVariable(value = "id") Integer id) {
+		System system = getOne(id);
+		List<Language> languageList = languageService.getAll();
+		List<Task> taskList = taskService.getAll().stream()
+				.filter(t -> t.getSystemId().equals(id)).collect(Collectors.toList());
+		model.addAttribute("system", system);
+		model.addAttribute("languageList", languageList);
+		model.addAttribute("taskList", taskList);
+		
+		if(!model.containsAttribute("systemForm")) {
+			model.addAttribute("systemForm", new SystemForm());
+		}
+		return "system/show";
 	}
 
 }

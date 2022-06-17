@@ -9,7 +9,7 @@ import javax.validation.constraints.Size;
 @Data
 public class SystemForm {
 	
-	private Integer systemId;
+	 private Integer systemId;
 	
 	 @NotNull
 	 @Size(min = 1, max = 127)
@@ -22,4 +22,6 @@ public class SystemForm {
 	 @NotNull
 	 @Size(min = 1, max = 127)
 	 private String startDate;
+	 
+	 private String endDate;
 }

@@ -8,48 +8,48 @@
 <body>
 	<div layout:fragment="content" class="container col-10" style="float:left">
 		<div class="container col-6" style="float:left">
-		
-    	<table class="table table-bordered">
-	    	<legend>【概要】 [[${task.overview}]] 
-	    	<th:block th:if="${task.endDate == null}">
-		    	<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#task-modal"
-		                		id="edit-button" th:data-id="${task.id}" data-type='edit' style="float:right">
-		        			完了報告
-		        </button>
-	    	</th:block>
-	    	</legend>
-    		<tr>
-    			<th class="table-info">タスクID</th>
-    			<td th:text="${task.id}"></td>
-    		</tr>
-    		<tr>
-    			<th class="table-info">システム名</th>
-    			<td th:text="${systemList[task.systemId-1].systemName}"></td>
-    		</tr>
-    		<tr>
-    			<th class="table-info">featureId</th>
-    			<td th:text="${task.featureNumber}"></td>
-    		</tr>
-    		<tr>
-    			<th class="table-info">言語</th>
-    			<td th:text="${systemList[task.systemId-1].language.language}"></td>
-    		</tr>
-    		<tr>
-    			<th class="table-info">開始日</th>
-    			<td th:text="${task.startDate}"></td>
-    		</tr>
-    		<tr>
-    			<th class="table-info">完了日</th>
-    			<td th:text="${task.endDate == null} ? '-' : ${task.endDate}"></td>
-    		</tr>
-    		<tr>
-    			<th class="table-info">レポート</th>
-    			<td th:text="${task.report == null} ? '-' : ${task.report}"></td>
-    		</tr>
-    	</table>
-        <p hidden th:text="${error}" id="error" style></p>
-        <div th:include="/modal/task/complate :: taskmodal"></div>
-	</div>
+			<legend>【概要】 [[${task.overview}]] </legend>
+			<div class="box">
+		    	<table class="table table-bordered">
+				    <th:block th:if="${task.endDate == null}">
+					    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#task-modal"
+					                	id="edit-button" th:data-id="${task.id}" data-type='edit'>
+					        		完了報告
+					    </button>
+				    </th:block>
+		    		<tr>
+		    			<th class="table-info">タスクID</th>
+		    			<td th:text="${task.id}"></td>
+		    		</tr>
+		    		<tr>
+		    			<th class="table-info">システム名</th>
+		    			<td><a th:href="@{/system/} + ${task.systemId}" th:text="${systemList[task.systemId-1].systemName}"/></td>
+		    		</tr>
+		    		<tr>
+		    			<th class="table-info">featureId</th>
+		    			<td th:text="${task.featureNumber}"></td>
+		    		</tr>
+		    		<tr>
+		    			<th class="table-info">言語</th>
+		    			<td th:text="${systemList[task.systemId-1].language.language}"></td>
+		    		</tr>
+		    		<tr>
+		    			<th class="table-info">開始日</th>
+		    			<td th:text="${task.startDate}"></td>
+		    		</tr>
+		    		<tr>
+		    			<th class="table-info">完了日</th>
+		    			<td th:text="${task.endDate == null} ? '-' : ${task.endDate}"></td>
+		    		</tr>
+		    		<tr>
+		    			<th class="table-info">レポート</th>
+		    			<td th:text="${task.report == null} ? '-' : ${task.report}"></td>
+		    		</tr>
+		    	</table>
+			</div>
+	        <p hidden th:text="${error}" id="error"></p>
+	        <div th:include="/modal/task/complate :: taskmodal"></div>
+		</div>
 	</div>
 	<div layout:fragment="javascript">
 		<script th:src="@{/js/task-complate.js}"></script>

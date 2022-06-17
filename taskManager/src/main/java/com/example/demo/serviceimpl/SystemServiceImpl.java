@@ -2,6 +2,7 @@ package com.example.demo.serviceimpl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.domain.System;
-import com.example.demo.domain.Task;
 import com.example.demo.repository.SystemRepository;
 import com.example.demo.service.SystemService;
 import com.example.demo.util.DateChange;
@@ -50,6 +50,11 @@ public class SystemServiceImpl implements SystemService {
 		System system = getOne(form.getSystemId());
    		BeanUtils.copyProperties(form, system);
 		system.setStartDate(datechange.stringToDate(form.getStartDate()));
+		if(Objects.nonNull(form.getEndDate())) {
+			system.setEndDate(datechange.stringToDate(form.getEndDate()));
+		}else {
+			system.setEndDate(null);
+		}
 		return systemRepository.save(system);
 	}
 
