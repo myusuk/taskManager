@@ -13,6 +13,7 @@
 	
 	//モーダル内容をリセット
 	function modalReset(){
+		$('#errorMessage').text("");
 		$('#systemId').val("");
 		$('#systemName').val("");
 		$('#languageId').val(0);
@@ -48,13 +49,24 @@
 		able();
 	})
 	
+	//入力値にエラーがあったらモーダルを開く
+	$(document).ready(function(){
+		var error = $('#error').text();
+		if(error != ""){
+			$('#system-modal').modal('show');
+		}
+	})
+	
 	$('#system-modal').on('show.bs.modal', function (event) {
-		
 		var button = $(event.relatedTarget);
-		var type = button.context.dataset.type;
-		var id = button.data('id');
-		
-		modalReset();
+		if(button[0] != undefined){
+			var type = button[0].dataset.type;
+			var id = button.data('id');
+			modalReset();
+		}else{
+			var type = $('#formType').text();
+			var id = $('#sendId').text();
+		}
 		
 		switch(type){
 			case 'register':

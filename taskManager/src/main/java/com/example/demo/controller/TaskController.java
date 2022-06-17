@@ -49,6 +49,8 @@ public class TaskController {
     		RedirectAttributes redirectAttributes)  {
 		 if (result.hasErrors()) {
 			 redirectAttributes.addFlashAttribute("error", result.getAllErrors());
+			 redirectAttributes.addFlashAttribute("formType", "register");
+			 redirectAttributes.addFlashAttribute("form", form.getTaskId());
 			 return "redirect:/task";
 		}
 		taskService.create(form);
@@ -60,6 +62,8 @@ public class TaskController {
 			RedirectAttributes redirectAttributes) {
 		 if (result.hasErrors()) {
 			 redirectAttributes.addFlashAttribute("error", result.getAllErrors());
+			 redirectAttributes.addFlashAttribute("formType", "edit");
+			 redirectAttributes.addFlashAttribute("form", form.getTaskId());
 			 return "redirect:/task";
 		}
 		taskService.update(form);
@@ -71,6 +75,8 @@ public class TaskController {
 			RedirectAttributes redirectAttributes) {
 		 if (result.hasErrors()) {
 			 redirectAttributes.addFlashAttribute("error", result.getAllErrors());
+			 redirectAttributes.addFlashAttribute("formType", "delete");
+			 redirectAttributes.addFlashAttribute("form", form.getTaskId());
 			 return "redirect:/task";
 		}
 		taskService.delete(form.getTaskId());

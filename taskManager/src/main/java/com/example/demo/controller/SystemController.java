@@ -22,7 +22,6 @@ import com.example.demo.service.LanguageService;
 import com.example.demo.service.SystemService;
 import com.example.demo.service.TaskService;
 import com.example.demo.web.SystemForm;
-import com.example.demo.web.TaskForm;
 
 @Controller
 @RequestMapping("system")
@@ -53,6 +52,8 @@ public class SystemController {
     		RedirectAttributes redirectAttributes)  {
 		 if (result.hasErrors()) {
 			 redirectAttributes.addFlashAttribute("error", result.getAllErrors());
+			 redirectAttributes.addFlashAttribute("formType", "register");
+			 redirectAttributes.addFlashAttribute("form", form.getSystemId());
 			 return "redirect:/system";
 		}
 		systemService.create(form);
@@ -64,6 +65,8 @@ public class SystemController {
 			RedirectAttributes redirectAttributes) {
 		 if (result.hasErrors()) {
 			 redirectAttributes.addFlashAttribute("error", result.getAllErrors());
+			 redirectAttributes.addFlashAttribute("formType", "edit");
+			 redirectAttributes.addFlashAttribute("form", form.getSystemId());
 			 return "redirect:/system";
 		}
 		systemService.update(form);
@@ -75,6 +78,8 @@ public class SystemController {
 			RedirectAttributes redirectAttributes) {
 		 if (result.hasErrors()) {
 			 redirectAttributes.addFlashAttribute("error", result.getAllErrors());
+			 redirectAttributes.addFlashAttribute("formType", "delete");
+			 redirectAttributes.addFlashAttribute("form", form.getSystemId());
 			 return "redirect:/system";
 		}
 		systemService.delete(form.getSystemId());
