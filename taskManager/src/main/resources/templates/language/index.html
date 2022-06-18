@@ -18,7 +18,7 @@
 					<thead>
 			        	<tr>
 			                <th class="col-1">ID</th>
-			                <th>言語</th>
+			                <th class="col-4">言語</th>
 			            </tr>
 					</thead>
 					<tbody>
@@ -33,6 +33,9 @@
 		</div>
 		 <p hidden th:text="${error}" id="error"></p>
 	     <div th:include="/modal/language/language :: languagemodal"></div>
+	</div>
+	 <div layout:fragment="javascript">
+	 	<script th:src="@{/js/language.js}"></script>
 	</div>
 </body>
 </html>

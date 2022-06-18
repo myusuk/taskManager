@@ -62,7 +62,9 @@
 		            </tbody>
 		        </table>
 			</div>
-	        <p hidden th:text="${error}" id="error"></p>
+			<p hidden th:text="${formType}" id="formType"></p>
+			<p hidden th:text="${form}" id="sendId"></p>
+	        <p hidden th:text="${error}" id="error" style></p>
 	        <div th:include="/modal/system/system :: systemmodal"></div>
 		</div>
 	</div>

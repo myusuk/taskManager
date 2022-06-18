@@ -13,6 +13,7 @@
 	
 	//モーダル内容をリセット
 	function modalReset(){
+		$('#errorMessage').text("");
 		$('#taskId').val("");
 		$('#systemId').val(0);
 		$('#featureNumber').val("");
@@ -41,6 +42,7 @@
 		document.getElementById("startDate").disabled = true;
 	}
 	
+	//入力不可を解除
 	function able(){
 		document.getElementById("systemId").disabled = false;
 		document.getElementById("featureNumber").disabled = false;
@@ -52,14 +54,24 @@
 		able();
 	})
 	
+	//入力値にエラーがあったらモーダルを開く
+	$(document).ready(function(){
+		var error = $('#error').text();
+		if(error != ""){
+			$('#task-modal').modal('show');
+		}
+	})
+	
 	$('#task-modal').on('show.bs.modal', function (event) {
-		
 		var button = $(event.relatedTarget);
-		var type = button.context.dataset.type;
-		var id = button.data('id');
-		
-		modalReset();
-		
+		if(button[0] != undefined){
+			var type = button[0].dataset.type;
+			var id = button.data('id');
+			modalReset();
+		}else{
+			var type = $('#formType').text();
+			var id = $('#sendId').text();
+		}
 		switch(type){
 			case 'register':
 			document.getElementById("task-form").setAttribute("action", "/task/create");
@@ -76,6 +88,7 @@
 			disable();
 			$('#modal-title').text('タスク削除');
 			break;
+		
 		}
 	})
 	

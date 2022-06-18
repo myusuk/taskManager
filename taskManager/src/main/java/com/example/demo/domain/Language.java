@@ -17,6 +17,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class Language {
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
 	@Column(name="language")

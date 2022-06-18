@@ -22,7 +22,7 @@
 			        			<div class="modal-body">
 			        				<span th:if="${error} != null" id="errorMessage" style="color:red">※入力値エラーが発生しました</span>
 			        				<div>
-						                <label for="languageId" class="col-sm-2 control-label">言語名</label>
+						                <label class="col-sm-2 control-label">言語名</label>
 						                <div class="col-sm-4">
 						                	<input type="text" class="form-control" id="language" name="language" th:field="*{language}"/>
 						                </div>
@@ -39,8 +39,5 @@
         	</div>
         </div>
  </div>
- <div layout:fragment="javascript">
-	 	<script th:src="@{/js/language.js}"></script>
-</div>
 </body>
 </html>
