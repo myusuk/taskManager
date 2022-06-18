@@ -42,7 +42,7 @@ public class LanguageServiceImpl implements LanguageService {
 
 	@Override
 	public Language update(LanguageForm form) {
-		Language language = new Language();
+		Language language = getOne(form.getLanguageId());
    		BeanUtils.copyProperties(form, language);
 		return languageRepository.save(language);
 	}

@@ -62,6 +62,7 @@
 		}
 	})
 	
+	//モーダル表示時処理
 	$('#task-modal').on('show.bs.modal', function (event) {
 		var button = $(event.relatedTarget);
 		if(button[0] != undefined){
@@ -90,5 +91,11 @@
 			break;
 		
 		}
+	})
+	
+	//完了タスク表示
+	$('#showButton').click(function(){
+		$('#endTaskTable').removeClass('fade');
+		$('#showTableButton').addClass('fade');
 	})
 	
