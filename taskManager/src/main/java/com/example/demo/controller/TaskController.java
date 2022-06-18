@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,11 +13,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.example.demo.domain.Language;
 import com.example.demo.domain.System;
 import com.example.demo.domain.Task;
+import com.example.demo.service.LanguageService;
 import com.example.demo.service.SystemService;
 import com.example.demo.service.TaskService;
 import com.example.demo.web.TaskForm;
@@ -30,13 +34,23 @@ public class TaskController {
 	TaskService taskService;
 	@Autowired
 	SystemService systemService;
+	@Autowired
+	LanguageService languageService;
 	
 	@GetMapping
-	public String index(Model model) {
+	public String index(Model model
+			,@RequestParam(defaultValue="0") Integer langId) {
 		List<Task> taskList = taskService.getAll();
+		if(!langId.equals(0)) {
+			taskList = taskList.stream()
+					.filter(t -> t.getSystem().getLanguageId().equals(langId))
+					.collect(Collectors.toList());
+		}
 		List<System> systemList = systemService.getAll();
+		List<Language> languageList = languageService.getAll();
 		model.addAttribute("taskList", taskList);
 		model.addAttribute("systemList", systemList);
+		model.addAttribute("languageList", languageList); 
 		
 		if(!model.containsAttribute("taskForm")) {
 			model.addAttribute("taskForm", new TaskForm());

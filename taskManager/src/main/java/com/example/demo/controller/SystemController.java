@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -36,8 +37,14 @@ public class SystemController {
 	TaskService taskService;
 	
 	@GetMapping
-	public String index(Model model) {
+	public String index(Model model
+			,@RequestParam(defaultValue="0") Integer langId) {
 		List<System> systemList = systemService.getAll();
+		if(!langId.equals(0)) {
+			systemList = systemList.stream()
+					.filter(s -> s.getLanguageId().equals(langId))
+					.collect(Collectors.toList());
+		}
 		List<Language>languageList = languageService.getAll();
 		model.addAttribute("systemList", systemList);
 		model.addAttribute("languageList", languageList);
