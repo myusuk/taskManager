@@ -25,8 +25,6 @@
 						                <label for="systemId" class="col-sm-2 control-label">システム名</label>
 						                <div class="col-sm-4">
 						                	<input type="text" class="form-control" id="systemName" name="systemName" th:field="*{systemName}"/>
-						                	<span th:if="${#fields.hasErrors('systemId')}" th:errors="*{systemId}"
-                              							class="help-block">error!</span>
 						                </div>
 						            </div>
 			        				<div>						                

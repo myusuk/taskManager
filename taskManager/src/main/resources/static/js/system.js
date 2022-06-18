@@ -87,3 +87,9 @@
 		}
 	})
 	
+	//完了タスク表示
+	$('#showButton').click(function(){
+		$('#endSystemTable').removeClass('fade');
+		$('#showTableButton').addClass('fade');
+	})
+	

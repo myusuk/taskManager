@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,7 @@ public class TaskServiceImpl implements TaskService {
 		iteTask.forEach(s -> taskList.add(s));
 		return taskList;
 	}
-
+	
 	@Override
 	public Task getOne(Integer id) {
 		return model2model(taskRepository.findById(id).get());
