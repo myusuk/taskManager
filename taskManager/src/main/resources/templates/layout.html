@@ -9,36 +9,40 @@
     <title>Layout</title>
 </head>
 <body>
-<div class="all">
-	<header class="row">
-		<div class="container">
-				<label class="h1 col-10">タスク管理システム</label>
-				<span>
-					<a href="/" class="col-2" th:text="home"/>
-				</span>
+	<div class="all">
+		<header class="row">
+			<div class="container">
+					<label class="h1 col-10">タスク管理システム</label>
+					<span>
+						<a href="/" class="col-2" th:text="home"/>
+					</span>
+			</div>
+		</header>
+		<div class="row menu">
+			<p>menu
 		</div>
-	</header>
-	<div class="row menu">
-		<p>menu
+		
+		<div class="row">
+			<div class="container col-2 side-menu">
+				<table class="table">
+					<tr>
+						<td><a th:href="@{/language}" th:text="言語管理"/><th>
+					</tr>
+					<tr>
+						<td><a th:href="@{/system}" th:text="システム管理"/></td>
+					</tr>
+					<tr>
+						<td><a th:href="@{/task}" th:text="タスク管理"/></td>
+					</tr>
+				</table>
+			</div>
+			<div layout:fragment="content" class="container col-10">
+				Main content
+			</div>
+		</div>
 	</div>
-	
-	<div class="row">
-		<div class="container col-2 side-menu">
-			<ul>
-				<li><a th:href="@{/language}" th:text="プログラム言語別"/></li>
-				<li><a th:href="@{/system}" th:text="システム開発"/></li>
-				<li><a th:href="@{/task}" th:text="タスク管理"/></li>
-			</ul>
-		</div>
-		<div layout:fragment="content" class="container col-10">
-			Main content
-		</div>
-	</div>
-</div>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script >
-	<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-	<div layout:fragment="javascript">
-	</div >
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+	<div layout:fragment="javascript"></div >
 </body>
-
 </html>

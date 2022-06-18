@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+			xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+			layout:decorate="layout">
+<head>
+    <title>Task Manager</title>
+</head>
+<body>
+	<div layout:fragment="content" class="container col-10" style="float:left">
+		<div class="container col-12" style="float:left">
+		<legend>【システム名】 [[${system.systemName}]] </legend>
+			<div class="box">
+	    	<table class="table table-bordered">
+		    	<th:block th:if="${system.endDate == null}">
+				    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#system-modal"
+				                	id="edit-button" th:data-id="${system.id}" data-type='edit'>
+				        		完了報告
+				    </button>
+			    </th:block>
+	    		<tr>
+	    			<th class="table-info">システムID</th>
+	    			<td th:text="${system.id}"></td>
+	    		</tr>
+	    		<tr>
+	    			<th class="table-info">言語</th>
+	    			<td th:text="${languageList[system.languageId-1].language}"></td>
+	    		</tr>
+	    		<tr>
+	    			<th class="table-info">開始日</th>
+	    			<td th:text="${system.startDate}"></td>
+	    		</tr>
+	    		<tr>
+	    			<th class="table-info">完了日</th>
+	    			<td th:text="${system.endDate == null} ? '-' : ${system.endDate}"></td>
+	    		</tr>
+	    	</table>
+	    	<table class="table table-striped table-bordered table-condensed">
+	    		<legend>関連タスク</legend>
+	    		<thead>
+		        	<tr>
+		                <th>ID</th>
+		                <th>概要</th>
+		                <th>fearureId</th>
+		                <th>開始日</th>
+		                <th>完了日</th>
+		            </tr>
+	            </thead>
+	            <tbody>
+		            <tr th:each="task : ${taskList}">
+		                <td th:text="${task.id}"></td>
+		                <td><a th:href="@{/task/} + ${task.id}" th:text="${task.overview}"></td>
+		                <td th:text="${task.featureNumber}"></td>
+		                <td th:text="${task.startDate}"></td>
+		                <td th:text="${task.endDate == null} ? '-' : ${task.endDate}"></td>
+		            </tr>
+	            </tbody>
+	    	</table>
+			</div>
+	        <p hidden th:text="${error}" id="error"></p>
+	        <div th:include="/modal/system/complate :: systemmodal"></div>
+		</div>
+	</div>
+	<div layout:fragment="javascript">
+		<script th:src="@{/js/system-complate.js}"></script>
+	</div>
+</body>
+</html>

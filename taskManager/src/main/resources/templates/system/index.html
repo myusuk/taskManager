@@ -8,48 +8,92 @@
 <body>
 	<div layout:fragment="content" class="container col-10" style="float:left">
 		<div class="container col-12" style="float:left">
-		<h2>システム開発</h2>
-		<table class="table table-striped table-bordered table-condensed">
-			   <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#system-modal"
-			   	data-type='register'>
-        			新規作成
-        		</button>
-        	<tr>
-                <th>ID</th>
-                <th>システム名</th>
-                <th>言語</th>
-                <th>開始日</th>
-                <th>完了日</th>
-                <th colspan="2">編集</th>
-            </tr>
-            <tr th:each="system : ${systemList}">
-                <td th:text="${system.id}"></td>
-                <td th:text="${system.systemName}"></td>
-                <td th:text="${system.language.language}"></td>
-                <td th:text="${system.startDate}"></td>
-                <td th:text="${system.endDate == null} ? '-' : ${system.endDate}"></td>
-                <td>
-                	<button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#system-modal"
-                		id="edit-button" th:data-id="${system.id}" data-type='edit'>
-        				編集
-        			</button>
-                </td>
-                <td>
-                	<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#system-modal" 
-                		th:data-id="${system.id}" data-type='delete'>
-        				削除
-        			</button>
-                </td>
-            </tr>
-        </table>
-        <p hidden th:text="${error}" id="error" style></p>
-        <div th:include="/modal/system/system :: systemmodal"></div>
+			<h2>システム管理</h2>
+			<div class="box">
+				<div>
+					<label>言語：</label>
+					<a th:href="@{/system(langId=0)}" th:text="選択なし" 
+								class="btn btn-outline-success"  name="id" th:value="0"/>
+					<span th:each="language: ${languageList}">
+						<a th:href="@{/system(langId=${language.id})}" th:text="${language.language}" 
+								class="btn btn-outline-success"  name="id" th:value="${language.id}" id="selectlanguageId"/>
+					</span>
+				</div>
+				<p></p>
+				<table class="table table-striped table-bordered table-condensed">
+					   <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#system-modal"
+					   		data-type='register'>
+		        			新規作成
+		        		</button>
+		        	<thead>
+			        	<tr>
+			                <th>ID</th>
+			                <th>システム名</th>
+			                <th>言語</th>
+			                <th>開始日</th>
+			                <th>完了日</th>
+			                <th colspan="2">編集</th>
+			            </tr>
+		            </thead>
+		            <tbody>
+			            <tr th:each="system : ${systemList}"  th:if="${system.endDate == null}">
+			                <td th:text="${system.id}"></td>
+			                <td><a th:href="@{/system/} + ${system.id}" th:text="${system.systemName}"></td>
+			                <td th:text="${system.language.language}"></td>
+			                <td th:text="${system.startDate}"></td>
+			                <td>-</td>
+			                <td>
+				                <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#system-modal"
+				                	id="edit-button" th:data-id="${system.id}" data-type='edit'>
+				        			編集
+				        		</button>
+			                </td>
+			                <td>
+				                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#system-modal" 
+				                	th:data-id="${system.id}" data-type='delete'>
+				        			削除
+				        		</button>
+			                </td>
+			            </tr>
+		            </tbody>
+		        </table>
+		        <div id="showTableButton">
+			        <button type="button" class="btn btn-success btn-sm" id="showButton">&or;</button>
+			        <span>完了タスクの表示</span>
+		        </div>
+		        <div class="fade" id="endSystemTable">
+			        <table class="table table-striped table-bordered table-condensed">
+			        	<legend>リリース済みシステム</legend>
+			        	<thead>
+				        	<tr>
+				                <th>ID</th>
+				                <th>システム名</th>
+				                <th>言語</th>
+				                <th>開始日</th>
+				                <th>完了日</th>
+				            </tr>
+			            </thead>
+			            <tbody>
+				            <tr th:each="system : ${systemList}"  th:if="${system.endDate != null}">
+				                <td th:text="${system.id}"></td>
+				                <td><a th:href="@{/system/} + ${system.id}" th:text="${system.systemName}"></td>
+				                <td th:text="${system.language.language}"></td>
+				                <td th:text="${system.startDate}"></td>
+				                <td th:text="${system.endDate}"></td>
+				            </tr>
+			            </tbody>
+			        </table>
+		        </div>
+			</div>
+			<p hidden th:text="${formType}" id="formType"></p>
+			<p hidden th:text="${form}" id="sendId"></p>
+	        <p hidden th:text="${error}" id="error"></p>
+	        <div th:include="/modal/system/system :: systemmodal"></div>
 		</div>
 	</div>
 	
 	<div layout:fragment="javascript" type="text/javascript">
 		<script th:src="@{/js/system.js}"></script>
-	
 	</div>
 </body>
 </html>

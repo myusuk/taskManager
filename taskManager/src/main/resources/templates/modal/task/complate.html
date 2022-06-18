@@ -20,12 +20,12 @@
 			        				<button type="button" class="btn-close" data-bs-dismiss="modal" area-label="Close"></button>
 			        			</div>
 			        			<div class="modal-body">
-						                <label for="systemId" class="col-sm-2 control-label">システム名</label>
-						                <div class="col-sm-4">
-						                	<th:block th:each="system, index: ${systemList}">
-						                		<p th:if="${index.index.equals(task.systemId-1)}" th:text="${system.systemName}"></p>
-						                	</th:block>
-						                </div>
+						        	<label for="systemId" class="col-sm-2 control-label">システム名</label>
+						            <div class="col-sm-4">
+						            	<th:block th:each="system, index: ${systemList}">
+						                	<p th:if="${index.index.equals(task.systemId-1)}" th:text="${system.systemName}"></p>
+						                </th:block>
+						            </div>
 			        				<div>						                
 							        	<label class="col-sm-2 control-label">featureID</label>
 						                <div class="col-sm-4">
