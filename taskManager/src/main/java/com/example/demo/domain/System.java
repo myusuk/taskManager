@@ -47,6 +47,10 @@ public class System {
 	@JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "system")
 	private List<Task> task;
+	
+	@JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "system")
+	private List<SystemDocument> systemDocument;
 
 }
 

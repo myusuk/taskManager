@@ -22,4 +22,8 @@ ul{
 	background-color:white; 
 }
 
+.task-contents{
+	float: left;
+}
+
 

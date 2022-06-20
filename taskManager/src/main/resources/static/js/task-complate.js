@@ -31,3 +31,49 @@
 		$('#modal-title').text('タスク編集');
 	})
 	
+		/***** document-modal  *****/
+	
+		//入力値にエラーがあったらモーダルを開く
+	$(document).ready(function(){
+		var error = $('#docerror').text();
+		if(error != ""){
+			$('#task-document-modal').modal('show');
+		}
+	})
+	
+		function getonedocument(id){
+		$.ajax({
+				url:  'api'  + '/document/get-one/' + id,
+				type: 'GET',
+				data: {id : id},
+				dataType: 'json'
+			}).done(function(res){
+				setDocumentData(res);
+			}).fail(function(){
+			})
+	};
+	
+		//モーダルにデータをセット
+	function setDocumentData(data){
+		$('#purpose').val(data.purpose);
+		$('#function').val(data.function);
+		$('#item').val(data.item);
+		$('#period').val(data.period);
+	}
+	
+	$('#task-document-modal').on('show.bs.modal', function (event) {
+		var button = $(event.relatedTarget);
+		if(button[0] != undefined){
+			var id = button.data('id');
+			if(id != null){
+				getonedocument(id);
+			}
+			$('#docErrorMessage').text("");
+		}else{
+			var id = $('#sendId').text();
+			if(id != null){
+				getonedocument(id);
+			}
+		}
+		
+	})
