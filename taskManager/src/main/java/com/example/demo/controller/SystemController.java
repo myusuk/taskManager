@@ -18,10 +18,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.domain.Language;
 import com.example.demo.domain.System;
+import com.example.demo.domain.SystemDocument;
 import com.example.demo.domain.Task;
 import com.example.demo.service.LanguageService;
+import com.example.demo.service.SystemDocumentService;
 import com.example.demo.service.SystemService;
 import com.example.demo.service.TaskService;
+import com.example.demo.web.SystemDocumentForm;
 import com.example.demo.web.SystemForm;
 
 @Controller
@@ -34,6 +37,8 @@ public class SystemController {
 	LanguageService languageService;
 	@Autowired
 	TaskService taskService;
+	@Autowired
+	SystemDocumentService systemDocumentService;
 	
 	@GetMapping
 	public String index(Model model
@@ -106,14 +111,41 @@ public class SystemController {
 		List<Language> languageList = languageService.getAll();
 		List<Task> taskList = taskService.getAll().stream()
 				.filter(t -> t.getSystemId().equals(id)).collect(Collectors.toList());
+		SystemDocument document = systemDocumentService.getOneBySystemId(id);
 		model.addAttribute("system", system);
 		model.addAttribute("languageList", languageList);
 		model.addAttribute("taskList", taskList);
+		model.addAttribute("document", document);
 		
 		if(!model.containsAttribute("systemForm")) {
 			model.addAttribute("systemForm", new SystemForm());
 		}
+		if(!model.containsAttribute("systemDocumentForm")) {
+			model.addAttribute("systemDocumentForm", new SystemDocumentForm());
+		}
 		return "system/show";
+	}
+	
+	@RequestMapping(path = "document/edit", method = RequestMethod.GET)
+	public String editDocument(@Validated SystemDocumentForm form, BindingResult result,
+			RedirectAttributes redirectAttributes) {
+		 if (result.hasErrors()) {
+			 redirectAttributes.addFlashAttribute("docError", result.getAllErrors());
+			 redirectAttributes.addFlashAttribute("docForm", form.getSystemId());
+			 return "redirect:/system/" + form.getSystemId();
+		}
+		 if(systemDocumentService.getExistsBySystemId(form.getSystemId())) {
+			 systemDocumentService.update(form);
+			return "redirect:/system/" + form.getSystemId() ;
+		 }
+		 systemDocumentService.create(form);
+		return "redirect:/system/" + form.getSystemId() ;
+	}
+	
+	@ResponseBody
+	@GetMapping(path = "api/document/get-one/{id}")
+	public SystemDocument getOneDocument(@PathVariable(value = "id") Integer systemId) {
+		return systemDocumentService.getOneBySystemId(systemId);
 	}
 
 }
