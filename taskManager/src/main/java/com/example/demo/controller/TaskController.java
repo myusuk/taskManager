@@ -19,10 +19,15 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.domain.Language;
 import com.example.demo.domain.System;
+import com.example.demo.domain.SystemDocument;
 import com.example.demo.domain.Task;
+import com.example.demo.domain.TaskDocument;
 import com.example.demo.service.LanguageService;
 import com.example.demo.service.SystemService;
+import com.example.demo.service.TaskDocumentService;
 import com.example.demo.service.TaskService;
+import com.example.demo.web.SystemDocumentForm;
+import com.example.demo.web.TaskDocumentForm;
 import com.example.demo.web.TaskForm;
 
 
@@ -36,6 +41,8 @@ public class TaskController {
 	SystemService systemService;
 	@Autowired
 	LanguageService languageService;
+	@Autowired
+	TaskDocumentService taskDocumentService;
 	
 	@GetMapping
 	public String index(Model model
@@ -107,12 +114,39 @@ public class TaskController {
 	public String page(Model model, @PathVariable(value = "id") Integer id) {
 		Task task = getOne(id);
 		List<System> systemList = systemService.getAll();
+		TaskDocument document = taskDocumentService.getOneByTaskId(id);
 		model.addAttribute("task", task);
 		model.addAttribute("systemList", systemList);
+		model.addAttribute("document", document);
 		
 		if(!model.containsAttribute("taskForm")) {
 			model.addAttribute("taskForm", new TaskForm());
 		}
+		if(!model.containsAttribute("taskDocumentForm")) {
+			model.addAttribute("taskDocumentForm", new TaskDocumentForm());
+		}
 		return "task/show";
+	}
+	
+	@RequestMapping(path = "document/edit", method = RequestMethod.GET)
+	public String editDocument(@Validated TaskDocumentForm form, BindingResult result,
+			RedirectAttributes redirectAttributes) {
+		 if (result.hasErrors()) {
+			 redirectAttributes.addFlashAttribute("docError", result.getAllErrors());
+			 redirectAttributes.addFlashAttribute("docForm", form.getTaskId());
+			 return "redirect:/task/" + form.getTaskId();
+		}
+		 if(taskDocumentService.getExistsByTaskId(form.getTaskId())) {
+			 taskDocumentService.update(form);
+			return "redirect:/task/" + form.getTaskId() ;
+		 }
+		taskDocumentService.create(form);
+		return "redirect:/task/" + form.getTaskId() ;
+	}
+	
+	@ResponseBody
+	@GetMapping(path = "api/document/get-one/{id}")
+	public TaskDocument getOneDocument(@PathVariable(value = "id") Integer taskId) {
+		return taskDocumentService.getOneByTaskId(taskId);
 	}
 }
