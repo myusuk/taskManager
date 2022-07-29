@@ -10,7 +10,7 @@
   <span>Java 11</span>/
   <span>Spring-Boot 2.6.7</span>/
   <span>Bootstrap 5.1.0</span>/
-  <span>jQuery 3.6.0</span>/
+  <span>jQuery 3.6.0</span>
 </div>
 <br>
 <div>
