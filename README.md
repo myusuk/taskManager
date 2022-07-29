@@ -1,13 +1,13 @@
 This is task management tool.
-<Framework>
+[Framework]
 Spring-Boot
 Bootstrap
 
-<varsion>
+[varsion]
 Java 11
 Spring-Boot 2.6.7
 Bootstrap 5.1.0
 jQuery 3.6.0
 
-<database>
+[database]
 H2 database
