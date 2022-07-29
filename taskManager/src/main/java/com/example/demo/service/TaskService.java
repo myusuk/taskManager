@@ -3,20 +3,25 @@ package com.example.demo.service;
 import java.util.List;
 
 import com.example.demo.domain.Task;
-import com.example.demo.web.TaskForm;
 
 public interface TaskService {
 	
 	public List<Task> getAll();
 
     public Task getOne(Integer id); 
+    
+    public Task getOneWithLanguage(Integer id);
+    
+    public List<Task> getBySystemId(Integer systemId);
+    
+    public Boolean getExistsById(Integer id);
 
-    public Task create(TaskForm form) ;
+    public Task create(Task task) ;
     	
-    public Task update(TaskForm  form);
+    public Task update(Task task);
 
     public void delete(Integer id);
     
-    public List<Task> getProcessList();
+    public List<Task> getInProcessList();
 
 }

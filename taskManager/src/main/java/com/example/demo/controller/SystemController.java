@@ -1,20 +1,22 @@
 package com.example.demo.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.domain.Language;
 import com.example.demo.domain.System;
@@ -24,8 +26,11 @@ import com.example.demo.service.LanguageService;
 import com.example.demo.service.SystemDocumentService;
 import com.example.demo.service.SystemService;
 import com.example.demo.service.TaskService;
-import com.example.demo.web.SystemDocumentForm;
-import com.example.demo.web.SystemForm;
+
+import com.example.demo.util.DateChange;
+import com.example.demo.util.DateValid;
+import com.example.demo.util.StringLengthValid;
+import com.example.demo.util.IdValid;
 
 @Controller
 @RequestMapping("system")
@@ -39,113 +44,185 @@ public class SystemController {
 	TaskService taskService;
 	@Autowired
 	SystemDocumentService systemDocumentService;
+	@Autowired
+	DateChange dateChange;
+	@Autowired
+	IdValid idValid;
+	@Autowired
+	DateValid dateValid;
+	
+	/**
+	 *  System Management
+	 */
 	
 	@GetMapping
 	public String index(Model model
-			,@RequestParam(defaultValue="0") Integer langId) {
+			,@RequestParam(defaultValue="0") Integer languageId) {
 		List<System> systemList = systemService.getAll();
-		if(!langId.equals(0)) {
+		//languageId == 0: not filter
+		if(!languageId.equals(0)) {
 			systemList = systemList.stream()
-					.filter(s -> s.getLanguageId().equals(langId))
+					.filter(s -> s.getLanguageId().equals(languageId))
 					.collect(Collectors.toList());
 		}
 		List<Language>languageList = languageService.getAll();
+		
+		model.addAttribute("languageId", languageId);
 		model.addAttribute("systemList", systemList);
 		model.addAttribute("languageList", languageList);
-		
-		if(!model.containsAttribute("systemForm")) {
-			model.addAttribute("systemForm", new SystemForm());
-		}
 		return "system/index";
 	}
 	
-	@RequestMapping(path = "create", method = RequestMethod.GET)
-    public String create(@Validated SystemForm form, BindingResult result,
-    		RedirectAttributes redirectAttributes)  {
-		 if (result.hasErrors()) {
-			 redirectAttributes.addFlashAttribute("error", result.getAllErrors());
-			 redirectAttributes.addFlashAttribute("formType", "register");
-			 redirectAttributes.addFlashAttribute("form", form.getSystemId());
-			 return "redirect:/system";
-		}
-		systemService.create(form);
-		return "redirect:/system";
-    }
-	
-	@RequestMapping(path = "edit", method = RequestMethod.GET)
-	public String edit(@Validated SystemForm form, BindingResult result,
-			RedirectAttributes redirectAttributes) {
-		 if (result.hasErrors()) {
-			 redirectAttributes.addFlashAttribute("error", result.getAllErrors());
-			 redirectAttributes.addFlashAttribute("formType", "edit");
-			 redirectAttributes.addFlashAttribute("form", form.getSystemId());
-			 return "redirect:/system";
-		}
-		systemService.update(form);
-		return "redirect:/system";
-	}
-	
-	@RequestMapping(path = "delete", method = RequestMethod.GET)
-	public String delete(@Validated SystemForm form, BindingResult result,
-			RedirectAttributes redirectAttributes) {
-		 if (result.hasErrors()) {
-			 redirectAttributes.addFlashAttribute("error", result.getAllErrors());
-			 redirectAttributes.addFlashAttribute("formType", "delete");
-			 redirectAttributes.addFlashAttribute("form", form.getSystemId());
-			 return "redirect:/system";
-		}
-		systemService.delete(form.getSystemId());
-		return "redirect:/system";
-	}
-	
-	
+	//create
 	@ResponseBody
-	@GetMapping(path = "api/get-one/{id}")
-	public System getOne(@PathVariable(value = "id") Integer id) {
+	@RequestMapping(path = "/api/create", method = RequestMethod.POST)
+	public ResponseEntity<?> create(String name, String startDate, String endDate, Integer languageId) {
+		Map<String, List<String>> response = new HashMap<>();
+		List<String> message = new ArrayList<>();
+		//data check
+		message = StringLengthValid.lengthValid(name, "Name", 30, false, message);
+		message = dateValid.dateValid(startDate, "Start date", false, message);
+		message = dateValid.dateValid(endDate, "End date", true, message);
+		message = idValid.languageIdForSystemValid(languageId, message);
+		if(!message.isEmpty()) {
+			response.put("message", message);
+			return new ResponseEntity<>(response, HttpStatus.NOT_ACCEPTABLE);
+		}
+		//create
+		System system = new System();
+		system.setName(name);
+		system.setStartDate(dateChange.stringToDate(startDate));
+		system.setEndDate(dateChange.stringToDate(endDate));
+		system.setLanguageId(languageId);
+		return new ResponseEntity<>(systemService.create(system), HttpStatus.OK);
+	 }
+	
+	//update
+	@ResponseBody
+	@RequestMapping(path = "/api/update", method = RequestMethod.POST)
+	public ResponseEntity<?> update(Integer id, String name, String startDate, String endDate, Integer languageId)  {
+		Map<String, List<String>> response = new HashMap<>();
+		List<String> message = new ArrayList<>();
+		//data check
+		message = idValid.systemIdValid(id, message);
+		message = StringLengthValid.lengthValid(name, "Name", 30, false, message);
+		message = dateValid.dateValid(startDate, "Start date", false, message);
+		message = dateValid.dateValid(endDate, "End date", true, message);
+		message = idValid.languageIdForSystemValid(languageId, message);
+		if(!message.isEmpty()) {
+			response.put("message", message);
+			return new ResponseEntity<>(response, HttpStatus.NOT_ACCEPTABLE);
+		}
+		//update
+		System system = systemService.getOne(id);
+		system.setName(name);
+		system.setStartDate(dateChange.stringToDate(startDate));
+		system.setEndDate(dateChange.stringToDate(endDate));
+		system.setLanguageId(languageId);
+		return new ResponseEntity<>(systemService.update(system), HttpStatus.OK);
+	 }
+	
+	//delete
+	@ResponseBody
+	@RequestMapping(path = "/api/delete", method = RequestMethod.POST)
+	public ResponseEntity<?> delete(Integer id)  {
+		Map<String, List<String>> response = new HashMap<>();
+		List<String> message = new ArrayList<>();
+		//data check
+		message = idValid.systemIdValid(id, message);
+		if(!message.isEmpty()) {
+			response.put("message", message);
+			return new ResponseEntity<>(response, HttpStatus.NOT_ACCEPTABLE);
+		}
+		//delete
+		systemService.delete(id);
+		return new ResponseEntity<>(new System(), HttpStatus.OK);
+	}
+	
+	//get system data
+	@ResponseBody
+	@GetMapping(path = "/api/get-one")
+	public System getOne(Integer id) {
 		return systemService.getOne(id);
 	}
 	
+	
+	/**
+	 *  System Detail
+	 */
+	
 	@GetMapping(path = "{id}")
-	public String page(Model model, @PathVariable(value = "id") Integer id) {
+	public String show(Model model, @PathVariable(value = "id") Integer id) {
 		System system = getOne(id);
 		List<Language> languageList = languageService.getAll();
-		List<Task> taskList = taskService.getAll().stream()
-				.filter(t -> t.getSystemId().equals(id)).collect(Collectors.toList());
-		SystemDocument document = systemDocumentService.getOneBySystemId(id);
+		List<Task> taskList = taskService.getBySystemId(id);
+		SystemDocument document = systemDocumentService.getBySystemId(id);
 		model.addAttribute("system", system);
 		model.addAttribute("languageList", languageList);
 		model.addAttribute("taskList", taskList);
 		model.addAttribute("document", document);
 		
-		if(!model.containsAttribute("systemForm")) {
-			model.addAttribute("systemForm", new SystemForm());
-		}
-		if(!model.containsAttribute("systemDocumentForm")) {
-			model.addAttribute("systemDocumentForm", new SystemDocumentForm());
-		}
 		return "system/show";
 	}
 	
-	@RequestMapping(path = "document/edit", method = RequestMethod.GET)
-	public String editDocument(@Validated SystemDocumentForm form, BindingResult result,
-			RedirectAttributes redirectAttributes) {
-		 if (result.hasErrors()) {
-			 redirectAttributes.addFlashAttribute("docError", result.getAllErrors());
-			 redirectAttributes.addFlashAttribute("docForm", form.getSystemId());
-			 return "redirect:/system/" + form.getSystemId();
+	//create system document
+	@ResponseBody
+	@RequestMapping(path = "api/document/create", method = RequestMethod.POST)
+	public ResponseEntity<?> createDocument(String overview, String purpose, 
+			String function, String period, Integer systemId) {
+		Map<String, List<String>> response = new HashMap<>();
+		List<String> message = new ArrayList<>();
+		//data check
+		message = StringLengthValid.lengthValid(overview, "Overview", 30, true, message);
+		message = StringLengthValid.lengthValid(purpose, "Purpose", 255, true, message);
+		message = StringLengthValid.lengthValid(function, "Function", 255, true, message);
+		message = StringLengthValid.lengthValid(period, "Period", 30, true, message);
+		message = idValid.systemIdForDocumentValid(systemId, message);
+		if(!message.isEmpty()) {
+			response.put("message", message);
+			return new ResponseEntity<>(response, HttpStatus.NOT_ACCEPTABLE);
 		}
-		 if(systemDocumentService.getExistsBySystemId(form.getSystemId())) {
-			 systemDocumentService.update(form);
-			return "redirect:/system/" + form.getSystemId() ;
-		 }
-		 systemDocumentService.create(form);
-		return "redirect:/system/" + form.getSystemId() ;
+		//create
+		SystemDocument document = new SystemDocument();
+		document.setOverview(overview);
+		document.setFunction(function);
+		document.setPurpose(purpose);
+		document.setPeriod(period);
+		document.setSystemId(systemId);
+		return new ResponseEntity<>(systemDocumentService.create(document), HttpStatus.OK);
 	}
 	
+	//update system document
 	@ResponseBody
-	@GetMapping(path = "api/document/get-one/{id}")
-	public SystemDocument getOneDocument(@PathVariable(value = "id") Integer systemId) {
-		return systemDocumentService.getOneBySystemId(systemId);
+	@RequestMapping(path = "api/document/update", method = RequestMethod.POST)
+	public ResponseEntity<?> updateDocument(Integer id, String overview, 
+			String purpose, String function, String period) {
+		Map<String, List<String>> response = new HashMap<>();
+		List<String> message = new ArrayList<>();
+		//data check
+		message = idValid.systemDocumentIdValid(id, message);
+		message = StringLengthValid.lengthValid(overview, "Overview", 30, true, message);
+		message = StringLengthValid.lengthValid(purpose, "Purpose", 255, true, message);
+		message = StringLengthValid.lengthValid(function, "Function", 255, true, message);
+		message = StringLengthValid.lengthValid(period, "Period", 30, true, message);
+		if(!message.isEmpty()) {
+			response.put("message", message);
+			return new ResponseEntity<>(response, HttpStatus.NOT_ACCEPTABLE);
+		}
+		//update
+		SystemDocument document = systemDocumentService.getOne(id);
+		document.setOverview(overview);
+		document.setFunction(function);
+		document.setPurpose(purpose);
+		document.setPeriod(period);
+		return new ResponseEntity<>(systemDocumentService.update(document), HttpStatus.OK);
+	}
+	
+	//get system document data
+	@ResponseBody
+	@GetMapping(path = "api/document/get-one")
+	public SystemDocument getOneDocument(Integer id) {
+		return systemDocumentService.getOne(id);
 	}
 
 }

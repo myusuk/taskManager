@@ -7,55 +7,49 @@
 <body>
  
  <!-- modal registar -->
- <div th:fragment="taskdocumentmodal" id="taskdocumentmodal">
+ <div th:fragment="task-document-modal">
         <div class="modal fade" id="task-document-modal" tabindex="-1">
         	<div class="modal-dialog">
         		<div class="modal-content">
-        			<form th:action="@{document/edit}" method="get" th:object="${taskDocumentForm}" class="form-horizontal"
-        				id="task-document-form">
-        				 <fieldset>
 				            <div class="form-group">
 				            	<div class="modal-header">
-			        				<h5 class="modal-title">ドキュメント登録</h5>
+			        				<h5 class="modal-title" id="document-modal-title">title</h5>
 			        				<button type="button" class="btn-close" data-bs-dismiss="modal" area-label="Close"></button>
 			        			</div>
 			        			<div class="modal-body">
-			        				<span th:if="${docError} != null" id="docErrorMessage" style="color:red">※入力値エラーが発生しました</span>
-			        				<div>
-			        					<label class="col-sm-2 control-label">開発目的</label>
+			        				<div class="row">
+			        					<span id="document-errorMessage" style="color:red">error message</span>
+			        				</div>
+			        				<div class="row">
+			        					<label class="col-sm-12 control-label">Purpose</label>
 						                <div class="col-sm-12">
-							                <textarea id="purpose" name="purpose" cols="30" rows="8" th:field="*{purpose}" class="form-control"></textarea>
+							                <textarea id="purpose" cols="30" rows="8" class="form-control"></textarea>
 						                </div>
 			        				</div>
-			        				<div>
-			        					<label class="col-sm-2 control-label">機能</label>
+			        				<div class="row">
+			        					<label class="col-sm-12 control-label">Function</label>
 						                <div class="col-sm-12">
-							                <textarea id="function" name="function" cols="30" rows="8"
-			                           				class="form-control"></textarea>
+							                <textarea id="function" cols="30" rows="8" class="form-control"></textarea>
 						                </div>
 			        				</div>
-			        				<div>						                
-							        	<label class="col-sm-4 control-label">開発項目</label>
+			        				<div class="row">						                
+							        	<label class="col-sm-12 control-label">Item</label>
 						                <div class="col-sm-12">
-							                <textarea id="item" name="item" cols="30" rows="8"
-			                           				class="form-control"></textarea>
+							                <textarea id="item" cols="30" rows="8" class="form-control"></textarea>
 						                </div>
 			        				</div>
-			        				<div>
-			        					<label class="col-sm-2 control-label">開発期間</label>
+			        				<div class="row">
+			        					<label class="col-sm-12 control-label">Period</label>
 						                <div class="col-sm-12">
-							                <input id="period" type="text"  name="period" th:field="*{period}"
-			                           				class="form-control">
+							                <input id="period" type="text"  class="form-control">
 						                </div>
 			        				</div>
 			        			</div>
 					            <div class="modal-footer">
-					            	<button type="submit" class="btn btn-primary" id="create-button-document" name="create-button">OK</button>
+					            	<button type="button" class="btn btn-primary" id="document-form-button">OK</button>
 									<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
 								</div>
 				            </div>
-				            <input hidden type="int" th:value="${task.id}" name="taskId" th:field="*{taskId}"/>
-				            <input hidden type="int" th:if="${document != null}" th:value="${document.id}" name="documentId" th:field="*{documentId}"/>
         				 </fieldset>
         			</form>
         		</div>
