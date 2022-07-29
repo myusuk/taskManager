@@ -7,51 +7,56 @@
 <body>
  
  <!-- modal registar -->
- <div th:fragment="systemmodal" id="systemmodal">
+ <div th:fragment="system-modal">
         <div class="modal fade" id="system-modal" tabindex="-1">
         	<div class="modal-dialog">
         		<div class="modal-content">
-        			<form th:action="@{/system/create}" method="get" th:object="${systemForm}" class="form-horizontal"
-        				id="system-form">
-        				 <fieldset>
-				            <div class="form-group">
-				            	<div class="modal-header">
-			        				<h5 class="modal-title" id="modal-title">title</h5>
-			        				<button type="button" class="btn-close" data-bs-dismiss="modal" area-label="Close"></button>
-			        			</div>
-			        			<div class="modal-body">
-			        				<span th:if="${error} != null" id="errorMessage" style="color:red">※入力値エラーが発生しました</span>
-			        				<div>
-						                <label for="systemId" class="col-sm-2 control-label">システム名</label>
-						                <div class="col-sm-4">
-						                	<input type="text" class="form-control" id="systemName" name="systemName" th:field="*{systemName}"/>
-						                </div>
-						            </div>
-			        				<div>						                
-							        	<label class="col-sm-2 control-label">言語</label>
-						                <div class="col-sm-4">
-							                <select  class="form-control" id="languageId" name="languageId" th:field="*{languageId}">
-						                		<option th:value="0" th:text="選択してください"></option>
-						                		<option th:each="language: ${languageList}" th:value="${language.id}" th:text="${language.language}"></option>
-						                	</select>
-						                </div>
-			        				</div>
-			        				<div>
-			        					<label for="start_date" class="col-sm-2 control-label">開始日</label>
-						                <div class="col-sm-4">
-						                    <input type="date" id="startDate" name="startDate" th:field="*{startDate}"
-						                           class="form-control"/>
-						                </div>
-			        				</div>
-			        			</div>
-					            <div class="modal-footer">
-					            	<button type="submit" class="btn btn-primary" id="create-button" name="create-button">OK</button>
-									<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
-								</div>
-				            </div>
-        				 </fieldset>
-        				 <input type="hidden" value="" id="systemId" th:field="*{systemId}"/>
-        			</form>
+					<div class="form-group">
+				    	<div class="modal-header">
+			        		<h5 class="modal-title" id="modal-title">title</h5>
+			        		<button type="button" class="btn-close" data-bs-dismiss="modal" area-label="Close"></button>
+			        	</div>
+			        	<div class="modal-body">
+			        		<div class="row">
+			        			<span id="errorMessage" style="color:red">error message</span>
+			        		</div>
+			        		<div class="row">
+						    	<label class="col-sm-12 control-label">Name:</label>
+						        <div class="col-sm-6">
+						        	<input type="text" class="form-control" id="name"/>
+						            <p id="deleteName">delete name</p>
+						        </div>
+						    </div>
+			        		<div class="row">						                
+								<label class="col-sm-12 control-label">Language:</label>
+						        <div class="col-sm-6">
+							    	<select  class="form-control" id="languageId">
+						                <option th:value="0">--- select ---</option>
+						                <option th:each="language: ${languageList}" th:value="${language.id}" th:text="${language.name}"></option>
+						            </select>
+						            <p id="deleteLanguage">delete language</p>
+						        </div>
+			        		</div>
+			        		<div class="row">
+			        			<label class="col-sm-12 control-label">Start date:</label>
+						        <div class="col-sm-6">
+						        	<input type="date" class="form-control" id="startDate"/>
+						            <p id="deleteStartDate">delete start date</p>
+						        </div>
+			        		</div>
+			        		<div class="row">
+			        			<label class="col-sm-12 control-label">End date:</label>
+						        <div class="col-sm-6">
+						            <input type="date" class="form-control" id="endDate"/>
+						            <p id="deleteEndDate">delete end date</p>
+						        </div>
+			        		</div>
+			        	</div>
+						<div class="modal-footer">
+					    	<button type="button" class="btn btn-primary" id="form-button">OK</button>
+							<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+						</div>
+					</div>
         		</div>
         	</div>
         </div>

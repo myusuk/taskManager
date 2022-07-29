@@ -7,59 +7,61 @@
 <body>
  
  <!-- modal registar -->
- <div th:fragment="taskmodal" id="taskmodal">
+ <div th:fragment="task-modal">
         <div class="modal fade" id="task-modal" tabindex="-1">
         	<div class="modal-dialog">
         		<div class="modal-content">
-        			<form th:action="@{/task/create}" method="get" th:object="${taskForm}" class="form-horizontal"
-        				id="task-form">
-        				 <fieldset>
-				            <div class="form-group">
-				            	<div class="modal-header">
-			        				<h5 class="modal-title" id="modal-title">title</h5>
-			        				<button type="button" class="btn-close" data-bs-dismiss="modal" area-label="Close"></button>
-			        			</div>
-			        			<div class="modal-body">
-			        				<span th:if="${error} != null" id="errorMessage" style="color:red">※入力値エラーが発生しました</span>
-			        				<div>
-						                <label for="systemId" class="col-sm-2 control-label">システム名</label>
-						                <div class="col-sm-4">
-						                	<select  class="form-control" id="systemId" name="systemId" th:field="*{systemId}">
-						                		<option th:value="0" th:text="選択してください"></option>
-						                		<option th:each="system: ${systemList}" th:value="${system.id}" th:text="${system.systemName}"></option>
-						                	</select>
-						                </div>
-						            </div>
-			        				<div>						                
-							        	<label class="col-sm-2 control-label">featureID</label>
-						                <div class="col-sm-4">
-							                <input type="text" id="featureNumber" name="featureNumber" th:field="*{featureNumber}"
-			                           				class="form-control">
-						                </div>
-			        				</div>
-			        				<div>
-			        					<label class="col-sm-2 control-label">概要</label>
-			        					<div class="col-sm-12">
-							                <input type="text" id="overview" name="overview" th:field="*{overview}"
-			                           				class="form-control">
-						                </div>
-			        				</div>
-			        				<div>
-			        					<label for="start_date" class="col-sm-2 control-label">開始日</label>
-						                <div class="col-sm-4">
-						                    <input type="date" id="startDate" name="startDate" th:field="*{startDate}"
-						                           class="form-control"/>
-						                </div>
-			        				</div>
-			        			</div>
-					            <div class="modal-footer">
-					            	<button type="submit" class="btn btn-primary" id="create-button" name="create-button">OK</button>
-									<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
-								</div>
-				            </div>
-        				 </fieldset>
-        				 <input type="hidden" value="" id="taskId" th:field="*{taskId}"/>
-        			</form>
+					<div class="modal-header">
+			        	<h5 class="modal-title" id="modal-title">title</h5>
+			        	<button type="button" class="btn-close" data-bs-dismiss="modal" area-label="Close"></button>
+			        </div>
+			        <div class="modal-body">
+			        	<div class="row">
+			        		<span id="errorMessage" style="color:red">error message</span>
+			        	</div>
+			        	<div class="row">
+						    <label class="col-sm-12 control-label">System:</label>
+						    <div class="col-sm-6">
+						    	<select  class="form-control" id="systemId">
+						        	<option th:value="0">---select---</option>
+						            <option th:each="system: ${systemList}" th:value="${system.id}" th:text="${system.name}"></option>
+						        </select>
+						        <p id="deleteSystem">delete system</p>
+						    </div>
+						</div>
+			        	<div class="row">
+			        		<label class="col-sm-12 control-label">Overview:</label>
+			        		<div class="col-sm-12">
+								<input type="text" id="overview" class="form-control">
+								<p id="deleteOverview">delete overview</p>
+						    </div>
+			        	</div>
+			        	<div class="row">
+			        		<label class="col-sm-12 control-label">Start date:</label>
+						    <div class="col-sm-6">
+						    	<input type="date" id="startDate" class="form-control"/>
+						    	<p id="deleteStartDate">delete start date</p>
+						    </div>
+			        	</div>
+			        	<div class="row">
+			        		<label class="col-sm-12 control-label">End date:</label>
+						    <div class="col-sm-6">
+						    	<input type="date" id="endDate" class="form-control"/>
+						    	<p id="deleteEndDate">delete end date</p>
+						    </div>
+			        	</div>
+			        	<div class="row">
+			        		<label class="col-sm-12 control-label">Report:</label>
+						    <div class="col-sm-12">
+								<input type="text" id="report" class="form-control">
+								<p id="deleteReport">delete report</p>
+						    </div>
+			        	</div>
+			        </div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" id="form-button">OK</button>
+						<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+					</div>
         		</div>
         	</div>
         </div>

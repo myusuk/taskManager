@@ -16,8 +16,8 @@ public class HomeController {
 	TaskService taskService;
 	
 	@GetMapping
-	public String hello(Model model) {
-		model.addAttribute("taskList", taskService.getProcessList());
+	public String index(Model model) {
+		model.addAttribute("taskList", taskService.getInProcessList());
 		return "index";
 	}
 	

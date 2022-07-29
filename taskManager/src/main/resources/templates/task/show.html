@@ -8,80 +8,72 @@
 <body>
 	<div layout:fragment="content" class="container col-10" style="float:left">
 		<div class="container col-12" style="float:left">
-			<legend>【概要】 [[${task.overview}]] </legend>
+			<legend>【Task】 [[${task.overview}]] </legend>
 			<div class="box">
 				<div class="container col-6 task-contents box">
 			    	<table class="table table-bordered">
-					    <th:block th:if="${task.endDate == null}">
-						    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#task-modal"
-						                	id="edit-button" th:data-id="${task.id}" data-type='edit'>
-						        		完了報告
-						    </button>
-					    </th:block>
+						<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#task-modal"
+						                th:data-id="${task.id}" data-type='update'>
+						        	Update
+						</button>
 			    		<tr>
-			    			<th class="table-info">タスクID</th>
+			    			<th class="table-info">id</th>
 			    			<td th:text="${task.id}"></td>
 			    		</tr>
 			    		<tr>
-			    			<th class="table-info">システム名</th>
-			    			<td><a th:href="@{/system/} + ${task.systemId}" th:text="${systemList[task.systemId-1].systemName}"/></td>
+			    			<th class="table-info">System</th>
+			    			<td><a th:href="@{/system/} + ${task.systemId}" th:text="${task.system.name}"/></td>
 			    		</tr>
 			    		<tr>
-			    			<th class="table-info">featureId</th>
-			    			<td th:text="${task.featureNumber}"></td>
+			    			<th class="table-info">Language</th>
+			    			<td th:text="${task.system.language.name}"></td>
 			    		</tr>
 			    		<tr>
-			    			<th class="table-info">言語</th>
-			    			<td th:text="${systemList[task.systemId-1].language.language}"></td>
-			    		</tr>
-			    		<tr>
-			    			<th class="table-info">開始日</th>
+			    			<th class="table-info">Start date</th>
 			    			<td th:text="${task.startDate}"></td>
 			    		</tr>
 			    		<tr>
-			    			<th class="table-info">完了日</th>
+			    			<th class="table-info">End date</th>
 			    			<td th:text="${task.endDate == null} ? '-' : ${task.endDate}"></td>
 			    		</tr>
 			    		<tr>
-			    			<th class="table-info">レポート</th>
+			    			<th class="table-info">Report</th>
 			    			<td th:text="${task.report == null} ? '-' : ${task.report}"></td>
 			    		</tr>
 			    	</table>
 				</div>
 				<div class="container col-6 task-contents box">
-					<legend>機能設計書</legend>
+					<legend>Document</legend>
 					<table class="table table-bordered">
 						<tr>
-							<th class="col-1 table-info">開発目的</th>
+							<th class="col-1 table-info">Purpose</th>
 							<td class="col-4" th:text="${document == null} ? '-' : ${document.purpose}"></td>
 						</tr>
 						<tr>
-							<th class="table-info">機能</th>
+							<th class="table-info">Function</th>
 							<td th:text="${document == null} ? '-' : ${document.function}"></td>
 						</tr>
 						<tr>
-							<th class="table-info">開発項目</th>
+							<th class="table-info">Item</th>
 							<td th:text="${document == null} ? '-' : ${document.item}"></td>
 						</tr>
 						<tr>
-							<th class="table-info">開発期間</th>
+							<th class="table-info">Period</th>
 							<td th:text="${document == null} ? '-' : ${document.period}"></td>
 						</tr>
 					</table>
 					<button type="button" class="btn btn-primary" style="float:right" data-bs-toggle="modal" data-bs-target="#task-document-modal"
-						                	id="edit-document-button" th:data-id="${document == null} ? 'null' : ${document.taskId}" data-type='edit'>
-						        		更新
+						                	th:data-id="${document == null} ? 'null' : ${document.id}" th:data-task-id="${task.id}"
+						                	th:data-type="${document == null}? 'create': 'update'"
+						                	th:text="${document == null}? 'Create': 'Update'">
 					</button>
 				</div>
 			</div>
-	        <p hidden th:text="${docError}" id="docerror"></p>
-	        <p hidden th:text="${docForm}" id="sendId"></p>
-	        <div th:include="/modal/task/complate :: taskmodal"></div>
-	        <div th:include="/modal/task/document :: taskdocumentmodal"></div>
+	        <div th:include="/modal/task/task :: task-modal"></div>
+	        <div th:include="/modal/task/document :: task-document-modal"></div>
 		</div>
 	</div>
 	<div layout:fragment="javascript">
-		<script th:src="@{/js/task-complate.js}"></script>
 	</div>
 </body>
 </html>
