@@ -50,6 +50,8 @@ public class SystemController {
 	IdValid idValid;
 	@Autowired
 	DateValid dateValid;
+	@Autowired
+	StringLengthValid stringLengthValid;
 	
 	/**
 	 *  System Management
@@ -80,10 +82,10 @@ public class SystemController {
 		Map<String, List<String>> response = new HashMap<>();
 		List<String> message = new ArrayList<>();
 		//data check
-		message = StringLengthValid.lengthValid(name, "Name", 30, false, message);
+		message = stringLengthValid.lengthValid(name, "Name", 30, false, message);
+		message = idValid.languageIdForSystemValid(languageId, message);
 		message = dateValid.dateValid(startDate, "Start date", false, message);
 		message = dateValid.dateValid(endDate, "End date", true, message);
-		message = idValid.languageIdForSystemValid(languageId, message);
 		if(!message.isEmpty()) {
 			response.put("message", message);
 			return new ResponseEntity<>(response, HttpStatus.NOT_ACCEPTABLE);
@@ -105,10 +107,10 @@ public class SystemController {
 		List<String> message = new ArrayList<>();
 		//data check
 		message = idValid.systemIdValid(id, message);
-		message = StringLengthValid.lengthValid(name, "Name", 30, false, message);
+		message = stringLengthValid.lengthValid(name, "Name", 30, false, message);
+		message = idValid.languageIdForSystemValid(languageId, message);
 		message = dateValid.dateValid(startDate, "Start date", false, message);
 		message = dateValid.dateValid(endDate, "End date", true, message);
-		message = idValid.languageIdForSystemValid(languageId, message);
 		if(!message.isEmpty()) {
 			response.put("message", message);
 			return new ResponseEntity<>(response, HttpStatus.NOT_ACCEPTABLE);
@@ -173,10 +175,10 @@ public class SystemController {
 		Map<String, List<String>> response = new HashMap<>();
 		List<String> message = new ArrayList<>();
 		//data check
-		message = StringLengthValid.lengthValid(overview, "Overview", 30, true, message);
-		message = StringLengthValid.lengthValid(purpose, "Purpose", 255, true, message);
-		message = StringLengthValid.lengthValid(function, "Function", 255, true, message);
-		message = StringLengthValid.lengthValid(period, "Period", 30, true, message);
+		message = stringLengthValid.lengthValid(overview, "Overview", 30, true, message);
+		message = stringLengthValid.lengthValid(purpose, "Purpose", 255, true, message);
+		message = stringLengthValid.lengthValid(function, "Function", 255, true, message);
+		message = stringLengthValid.lengthValid(period, "Period", 30, true, message);
 		message = idValid.systemIdForDocumentValid(systemId, message);
 		if(!message.isEmpty()) {
 			response.put("message", message);
@@ -201,10 +203,10 @@ public class SystemController {
 		List<String> message = new ArrayList<>();
 		//data check
 		message = idValid.systemDocumentIdValid(id, message);
-		message = StringLengthValid.lengthValid(overview, "Overview", 30, true, message);
-		message = StringLengthValid.lengthValid(purpose, "Purpose", 255, true, message);
-		message = StringLengthValid.lengthValid(function, "Function", 255, true, message);
-		message = StringLengthValid.lengthValid(period, "Period", 30, true, message);
+		message = stringLengthValid.lengthValid(overview, "Overview", 30, true, message);
+		message = stringLengthValid.lengthValid(purpose, "Purpose", 255, true, message);
+		message = stringLengthValid.lengthValid(function, "Function", 255, true, message);
+		message = stringLengthValid.lengthValid(period, "Period", 30, true, message);
 		if(!message.isEmpty()) {
 			response.put("message", message);
 			return new ResponseEntity<>(response, HttpStatus.NOT_ACCEPTABLE);

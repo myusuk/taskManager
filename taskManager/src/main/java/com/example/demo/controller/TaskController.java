@@ -50,6 +50,8 @@ public class TaskController {
 	IdValid idValid;
 	@Autowired
 	DateValid dateValid;
+	@Autowired
+	StringLengthValid stringLengthValid;
 	
 	/**
 	 * Task Management
@@ -84,11 +86,11 @@ public class TaskController {
 		Map<String, List<String>> response = new HashMap<>();
 		List<String> message = new ArrayList<>();
 		//data check
-		message = StringLengthValid.lengthValid(overview, "Overview", 30, false, message);
+		message = idValid.systemIdForTaskValid(systemId, message);
+		message = stringLengthValid.lengthValid(overview, "Overview", 30, false, message);
 		message = dateValid.dateValid(startDate, "Start date", false, message);
 		message = dateValid.dateValid(endDate, "End date", true, message);
-		message = StringLengthValid.lengthValid(report, "Report", 121, true, message);
-		message = idValid.systemIdForTaskValid(systemId, message);
+		message = stringLengthValid.lengthValid(report, "Report", 121, true, message);
 		if(!message.isEmpty()) {
 			response.put("message", message);
 			return new ResponseEntity<>(response, HttpStatus.NOT_ACCEPTABLE);
@@ -112,11 +114,11 @@ public class TaskController {
 		List<String> message = new ArrayList<>();
 		//data check
 		message = idValid.taskIdValid(id, message);
-		message = StringLengthValid.lengthValid(overview, "Overview", 30, false, message);
+		message = idValid.systemIdForTaskValid(systemId, message);
+		message = stringLengthValid.lengthValid(overview, "Overview", 30, false, message);
 		message = dateValid.dateValid(startDate, "Start date", false, message);
 		message = dateValid.dateValid(endDate, "End date", true, message);
-		message = StringLengthValid.lengthValid(report, "Report", 121, true, message);
-		message = idValid.systemIdForTaskValid(systemId, message);
+		message = stringLengthValid.lengthValid(report, "Report", 121, true, message);
 		if(!message.isEmpty()) {
 			response.put("message", message);
 			return new ResponseEntity<>(response, HttpStatus.NOT_ACCEPTABLE);
@@ -181,10 +183,10 @@ public class TaskController {
 		Map<String, List<String>> response = new HashMap<>();
 		List<String> message = new ArrayList<>();
 		//data check
-		message = StringLengthValid.lengthValid(purpose, "Purpose", 255, true, message);
-		message = StringLengthValid.lengthValid(function, "Function", 255, true, message);
-		message = StringLengthValid.lengthValid(item, "Item", 255, true, message);
-		message = StringLengthValid.lengthValid(period, "Period", 30, true, message);
+		message = stringLengthValid.lengthValid(purpose, "Purpose", 255, true, message);
+		message = stringLengthValid.lengthValid(function, "Function", 255, true, message);
+		message = stringLengthValid.lengthValid(item, "Item", 255, true, message);
+		message = stringLengthValid.lengthValid(period, "Period", 30, true, message);
 		message = idValid.taskIdForDocumentValid(taskId, message);
 		if(!message.isEmpty()) {
 			response.put("message", message);
@@ -209,10 +211,10 @@ public class TaskController {
 		List<String> message = new ArrayList<>();
 		//data check
 		message = idValid.taskDocumentIdValid(id, message);
-		message = StringLengthValid.lengthValid(purpose, "Purpose", 255, true, message);
-		message = StringLengthValid.lengthValid(function, "Function", 255, true, message);
-		message = StringLengthValid.lengthValid(item, "Item", 255, true, message);
-		message = StringLengthValid.lengthValid(period, "Period", 30, true, message);
+		message = stringLengthValid.lengthValid(purpose, "Purpose", 255, true, message);
+		message = stringLengthValid.lengthValid(function, "Function", 255, true, message);
+		message = stringLengthValid.lengthValid(item, "Item", 255, true, message);
+		message = stringLengthValid.lengthValid(period, "Period", 30, true, message);
 		if(!message.isEmpty()) {
 			response.put("message", message);
 			return new ResponseEntity<>(response, HttpStatus.NOT_ACCEPTABLE);
