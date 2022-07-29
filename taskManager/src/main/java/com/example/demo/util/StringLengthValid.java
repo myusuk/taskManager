@@ -13,7 +13,7 @@ public class StringLengthValid {
 	 */
 	
 	
-	public static List<String> lengthValid(String field, String fieldName, Integer length, Boolean nullAble, List<String> message){
+	public List<String> lengthValid(String field, String fieldName, Integer length, Boolean nullAble, List<String> message){
 		//Null check
 		if(field.isBlank()) {
 			if(nullAble) {

@@ -37,6 +37,13 @@ public class LanguageController {
 	IdValid idValid;
 	@Autowired
 	StringDuplicateValid stringDuplicateValid;
+	@Autowired
+	StringLengthValid stringLengthValid;
+	
+	/**
+	 *  Language Management
+	 * 
+	 */
 	
 	
 	@GetMapping
@@ -53,7 +60,7 @@ public class LanguageController {
 		Map<String, List<String>> response = new HashMap<>();
 		List<String> message = new ArrayList<>();
 		//data check
-		message = StringLengthValid.lengthValid(name, "Name", 30, false, message);
+		message = stringLengthValid.lengthValid(name, "Name", 30, false, message);
 		message = stringDuplicateValid.languageNameValid(name, message);
 		if(!message.isEmpty()) {
 			response.put("message", message);
@@ -73,7 +80,7 @@ public class LanguageController {
 		List<String> message = new ArrayList<>();
 		//data check
 		message = idValid.languageIdValid(id, message);
-		message = StringLengthValid.lengthValid(name, "Name", 30, false, message);
+		message = stringLengthValid.lengthValid(name, "Name", 30, false, message);
 		message = stringDuplicateValid.languageNameValid(name, message);
 		if(!message.isEmpty()) {
 			response.put("message", message);
