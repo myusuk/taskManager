@@ -1,4 +1,4 @@
-# taskManager
+# TaskManager
 Task management tool
 # Requirement
 <div>
