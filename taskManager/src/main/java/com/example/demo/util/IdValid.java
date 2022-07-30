@@ -6,9 +6,11 @@ import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.example.demo.service.LanguageService;
-import com.example.demo.service.SystemDocumentService;
-import com.example.demo.service.SystemService;
+import com.example.demo.service.ProgramCategoryService;
+import com.example.demo.service.TargetCategoryService;
+import com.example.demo.service.TargetDocumentService;
+import com.example.demo.service.TargetService;
+import com.example.demo.service.TaskCategoryService;
 import com.example.demo.service.TaskDocumentService;
 import com.example.demo.service.TaskService;
 
@@ -16,13 +18,17 @@ import com.example.demo.service.TaskService;
 public class IdValid {
 	
 	@Autowired
-	LanguageService languageService;
+	ProgramCategoryService programCategoryService;
 	@Autowired
-	SystemService systemService;
+	TargetCategoryService targetCategoryService;
+	@Autowired
+	TaskCategoryService taskCategoryService;
+	@Autowired
+	TargetService targetService;
 	@Autowired
 	TaskService taskService;
 	@Autowired
-	SystemDocumentService systemDocumentService;
+	TargetDocumentService targetDocumentService;
 	@Autowired
 	TaskDocumentService taskDocumentService;
 	
@@ -32,81 +38,143 @@ public class IdValid {
 	 */
 	
 	/**
-	 * LanguageId Valid
+	 * ProgramCategoryId Valid
 	 * 
 	 */
 	
-	public List<String> languageIdValid(Integer languageId, List<String> message){
-		if(Objects.isNull(languageId)) {
-			message.add("Language is null.");
+	public List<String> programCategoryIdValid(Integer categoryId, List<String> message){
+		if(Objects.isNull(categoryId)) {
+			message.add("Program category is not nullable.");
 			return message;
 		}
-		if(!languageService.getExistsById(languageId)) {
-			message.add("Language is not found.");
+		if(!programCategoryService.getExistsById(categoryId)) {
+			message.add("Program category is not found.");
 			return message;
 		}
 		return message;
 	}
 	
-	public List<String> languageIdForSystemValid(Integer languageId, List<String> message){
-		if(Objects.isNull(languageId)) {
-			message.add("Language is null.");
+	public List<String> programCategoryIdForTargetValid(Integer categoryId, List<String> message){
+		// Null able
+		if(Objects.isNull(categoryId)) {
 			return message;
 		}
-		if(languageId.equals(0)) {
-			message.add("Language is not selected.");
+		if(!programCategoryService.getExistsById(categoryId)) {
+			message.add("Program category is not found.");
 			return message;
 		}
-		if(!languageService.getExistsById(languageId)) {
-			message.add("Language is not found.");
+		return message;
+	}
+	
+	/**
+	 * TargetCategoryId Valid
+	 * 
+	 */
+	
+	public List<String> targetCategoryIdValid(Integer categoryId, List<String> message){
+		if(Objects.isNull(categoryId)) {
+			message.add("Target category is not nullable.");
+			return message;
+		}
+		if(!targetCategoryService.getExistsById(categoryId)) {
+			message.add("Target category is not found.");
+			return message;
+		}
+		return message;
+	}
+	
+	public List<String> targetCategoryIdForTargetValid(Integer categoryId, List<String> message){
+		if(Objects.isNull(categoryId)) {
+			message.add("Target category is null.");
+			return message;
+		}
+		if(categoryId.equals(0)) {
+			message.add("Target category is required.");
+			return message;
+		}
+		if(!targetCategoryService.getExistsById(categoryId)) {
+			message.add("Target category is not found.");
+			return message;
+		}
+		return message;
+	}
+	
+	/**
+	 * TaskCategoryId Valid
+	 * 
+	 */
+	
+	public List<String> taskCategoryIdValid(Integer categoryId, List<String> message){
+		if(Objects.isNull(categoryId)) {
+			message.add("Task category is not nullable.");
+			return message;
+		}
+		if(!taskCategoryService.getExistsById(categoryId)) {
+			message.add("Task category is not found.");
+			return message;
+		}
+		return message;
+	}
+	
+	public List<String> taskCategoryIdForTaskValid(Integer categoryId, List<String> message){
+		if(Objects.isNull(categoryId)) {
+			message.add("Task category is null.");
+			return message;
+		}
+		if(categoryId.equals(0)) {
+			message.add("Task category is required.");
+			return message;
+		}
+		if(!taskCategoryService.getExistsById(categoryId)) {
+			message.add("Task category is not found.");
 			return message;
 		}
 		return message;
 	}
  	
 	/**
-	 *  SystemId Valid
+	 *  TargetId Valid
 	 * 
 	 */
 	
-	public List<String> systemIdValid(Integer systemId, List<String> message){
-		if(Objects.isNull(systemId)) {
-			message.add("System is not nullable.");
+	public List<String> targetIdValid(Integer targetId, List<String> message){
+		if(Objects.isNull(targetId)) {
+			message.add("Target is not nullable.");
 			return message;
 		}
-		if(!systemService.getExistsById(systemId)) {
-			message.add("System is not found.");
-			return message;
-		}
-		return message;
-	}
-	
-	public List<String> systemIdForTaskValid(Integer systemId, List<String> message){
-		if(Objects.isNull(systemId)) {
-			message.add("System is not nullable.");
-			return message;
-		}
-		if(systemId.equals(0)) {
-			message.add("System is not selected.");
-			return message;
-		}
-		if(!systemService.getExistsById(systemId)) {
-			message.add("System is not found.");
+		if(!targetService.getExistsById(targetId)) {
+			message.add("Target is not found.");
 			return message;
 		}
 		return message;
 	}
 	
-	public List<String> systemIdForDocumentValid(Integer systemId, List<String> message){
-		if(Objects.isNull(systemId)) {
-			message.add("System is not nullable.");
+	public List<String> targetIdForTaskValid(Integer targetId, List<String> message){
+		if(Objects.isNull(targetId)) {
+			message.add("Target is not nullable.");
 			return message;
 		}
-		if(!systemService.getExistsById(systemId)) {
-			message.add("System is not found.");
+		if(targetId.equals(0)) {
+			message.add("Target is required.");
 			return message;
 		}
-		if(systemDocumentService.getExistsBySystemId(systemId)) {
+		if(!targetService.getExistsById(targetId)) {
+			message.add("Target is not found.");
+			return message;
+		}
+		return message;
+	}
+	
+	public List<String> targetIdForDocumentValid(Integer targetId, List<String> message){
+		if(Objects.isNull(targetId)) {
+			message.add("Target is not nullable.");
+			return message;
+		}
+		if(!targetService.getExistsById(targetId)) {
+			message.add("Target is not found.");
+			return message;
+		}
+		if(targetDocumentService.getExistsByTargetId(targetId)) {
 			message.add("Document is duplicated.");
 			return message;
 		}
@@ -114,17 +182,17 @@ public class IdValid {
 	}
 	
 	/**
-	 *  SystemDocumentId Valid
+	 *  TargetDocumentId Valid
 	 * 
 	 */
 	
-	public List<String> systemDocumentIdValid(Integer documentId, List<String> message){
+	public List<String> targetDocumentIdValid(Integer documentId, List<String> message){
 		if(Objects.isNull(documentId)) {
-			message.add("Document is not not found.");
+			message.add("Document is not found.");
 			return message;
 		}
-		if(!systemDocumentService.getExistsById(documentId)) {
-			message.add("Document is not not found.");
+		if(!targetDocumentService.getExistsById(documentId)) {
+			message.add("Document is not found.");
 			return message;
 		}
 		return message;
@@ -170,11 +238,11 @@ public class IdValid {
 	
 	public List<String> taskDocumentIdValid(Integer documentId, List<String> message){
 		if(Objects.isNull(documentId)) {
-			message.add("Document is not not found.");
+			message.add("Document is not found.");
 			return message;
 		}
 		if(!taskDocumentService.getExistsById(documentId)) {
-			message.add("Document is not not found.");
+			message.add("Document is not found.");
 			return message;
 		}
 		return message;

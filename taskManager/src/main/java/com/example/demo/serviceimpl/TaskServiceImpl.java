@@ -27,13 +27,13 @@ public class TaskServiceImpl implements TaskService {
 	}
 	
 	@Override
-	public Task getOneWithLanguage(Integer id) {
-		return taskRepository.findOneWithLanguage(id);
+	public Task getOneWithProgramCategory(Integer id) {
+		return taskRepository.findOneWithProgramCategory(id);
 	}
 	
 	@Override
-	public List<Task> getBySystemId(Integer systemId){
-		return taskRepository.findBySystemId(systemId);
+	public List<Task> getByTargetId(Integer targetId){
+		return taskRepository.findByTargetId(targetId);
 	}
 	
 	@Override

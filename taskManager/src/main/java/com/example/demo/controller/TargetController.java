@@ -1,11 +1,11 @@
 package com.example.demo.controller;
 
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,26 +22,23 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.example.demo.domain.ProgramCategory;
 import com.example.demo.domain.Target;
 import com.example.demo.domain.TargetCategory;
+import com.example.demo.domain.TargetDocument;
 import com.example.demo.domain.Task;
-import com.example.demo.domain.TaskCategory;
-import com.example.demo.domain.TaskDocument;
 import com.example.demo.service.ProgramCategoryService;
 import com.example.demo.service.TargetCategoryService;
+import com.example.demo.service.TargetDocumentService;
 import com.example.demo.service.TargetService;
-import com.example.demo.service.TaskCategoryService;
-import com.example.demo.service.TaskDocumentService;
 import com.example.demo.service.TaskService;
+
 import com.example.demo.util.DateChange;
 import com.example.demo.util.DateValid;
-import com.example.demo.util.IdValid;
 import com.example.demo.util.StringLengthValid;
+import com.example.demo.util.IdValid;
 
 @Controller
-@RequestMapping("task")
-public class TaskController {
+@RequestMapping("target")
+public class TargetController {
 	
-	@Autowired
-	TaskService taskService;
 	@Autowired
 	TargetService targetService;
 	@Autowired
@@ -49,9 +46,9 @@ public class TaskController {
 	@Autowired
 	TargetCategoryService targetCategoryService;
 	@Autowired
-	TaskCategoryService taskCategoryService;
+	TaskService taskService;
 	@Autowired
-	TaskDocumentService taskDocumentService;
+	TargetDocumentService targetDocumentService;
 	@Autowired
 	DateChange dateChange;
 	@Autowired
@@ -62,113 +59,97 @@ public class TaskController {
 	StringLengthValid stringLengthValid;
 	
 	/**
-	 * Task Management
-	 * 
+	 *  Target Management
 	 */
 	
 	@GetMapping
 	public String index(Model model
 			, @RequestParam(defaultValue="0") Integer tc
-			, @RequestParam(defaultValue="0") Integer ta
 			, @RequestParam(defaultValue="0") Integer pc) {
-		List<Task> taskList = taskService.getAll();
+		List<Target> targetList = targetService.getAll();
 		/**
-		 * tc: Task category id
-		 * ta: Target category id
+		 * tc: Target category id
 		 * pc: Program category id
 		 * if category id is 0. return all target.
 		 */
 		if(!tc.equals(0)) {
-			taskList = taskList.stream()
-					.filter(t -> t.getTaskCategoryId().equals(tc))
-					.collect(Collectors.toList());
-		}
-		if(!ta.equals(0)) {
-			taskList = taskList.stream()
-					.filter(t -> t.getTarget().getTargetCategoryId().equals(ta))
+			targetList = targetList.stream()
+					.filter(t -> t.getTargetCategoryId().equals(tc))
 					.collect(Collectors.toList());
 		}
 		if(!pc.equals(0)) {
-			taskList = taskList.stream()
-					.filter(t -> t.getTarget().getProgramCategoryId() != null)
-					.filter(t -> t.getTarget().getProgramCategoryId().equals(pc))
+			targetList = targetList.stream()
+					.filter(t -> t.getProgramCategory() != null)
+					.filter(t -> t.getProgramCategoryId().equals(pc))
 					.collect(Collectors.toList());
 		}
-		List<Target> targetList = targetService.getAll();
-		List<TargetCategory> targetCategoryList = targetCategoryService.getAll();
+		
 		List<ProgramCategory> programCategoryList = programCategoryService.getAll();
-		List<TaskCategory> taskCategoryList = taskCategoryService.getAll();
+		List<TargetCategory> targetCategoryList = targetCategoryService.getAll();
 		
 		model.addAttribute("tc", tc);
-		model.addAttribute("ta", ta);
 		model.addAttribute("pc", pc);
-		model.addAttribute("taskList", taskList);
 		model.addAttribute("targetList", targetList);
 		model.addAttribute("programCategoryList", programCategoryList);
 		model.addAttribute("targetCategoryList", targetCategoryList);
-		model.addAttribute("taskCategoryList", taskCategoryList);
-		return "task/index";
+		return "target/index";
 	}
 	
 	//create
 	@ResponseBody
 	@RequestMapping(path = "/api/create", method = RequestMethod.POST)
-	public ResponseEntity<?> create(String name, String startDate, 
-			String endDate, String report, Integer taskCategoryId, Integer targetId) {
+	public ResponseEntity<?> create(String name, String startDate, String endDate, 
+			Integer programCategoryId, Integer targetCategoryId) {
 		Map<String, List<String>> response = new HashMap<>();
 		List<String> message = new ArrayList<>();
 		//data check
-		message = idValid.targetIdForTaskValid(targetId, message);
-		message = stringLengthValid.lengthValid(name, "Name", 31, false, message);
-		message = idValid.taskCategoryIdForTaskValid(taskCategoryId, message);
+		message = stringLengthValid.lengthValid(name, "Name", 30, false, message);
+		message = idValid.targetCategoryIdForTargetValid(targetCategoryId, message);
+		message = idValid.programCategoryIdForTargetValid(programCategoryId, message);
 		message = dateValid.dateValid(startDate, "Start date", false, message);
 		message = dateValid.dateValid(endDate, "End date", true, message);
-		message = stringLengthValid.lengthValid(report, "Report", 121, true, message);
 		if(!message.isEmpty()) {
 			response.put("message", message);
 			return new ResponseEntity<>(response, HttpStatus.NOT_ACCEPTABLE);
 		}
 		//create
-		Task task = new Task();
-		task.setName(name);
-		task.setStartDate(dateChange.stringToDate(startDate));
-		task.setEndDate(dateChange.stringToDate(endDate));
-		task.setReport(report);
-		task.setTaskCategoryId(taskCategoryId);
-		task.setTargetId(targetId);
-		return new ResponseEntity<>(taskService.create(task), HttpStatus.OK);
+		Target target = new Target();
+		target.setName(name);
+		target.setStartDate(dateChange.stringToDate(startDate));
+		target.setEndDate(dateChange.stringToDate(endDate));
+		target.setTargetCategoryId(targetCategoryId);
+		target.setProgramCategoryId(programCategoryId);
+		return new ResponseEntity<>(targetService.create(target), HttpStatus.OK);
 	 }
-		
+	
 	//update
 	@ResponseBody
 	@RequestMapping(path = "/api/update", method = RequestMethod.POST)
-	public ResponseEntity<?> update(Integer id, String name, String startDate, 
-			String endDate, String report, Integer taskCategoryId, Integer targetId)  {
+	public ResponseEntity<?> update(Integer id, String name, String startDate, String endDate,
+			Integer programCategoryId, Integer targetCategoryId)  {
 		Map<String, List<String>> response = new HashMap<>();
 		List<String> message = new ArrayList<>();
 		//data check
-		message = idValid.taskIdValid(id, message);
-		message = idValid.targetIdForTaskValid(targetId, message);
-		message = stringLengthValid.lengthValid(name, "Name", 31, false, message);
-		message = idValid.taskCategoryIdForTaskValid(taskCategoryId, message);
+		message = idValid.targetIdValid(id, message);
+		message = stringLengthValid.lengthValid(name, "Name", 30, false, message);
+		message = idValid.targetCategoryIdForTargetValid(targetCategoryId, message);
+		message = idValid.programCategoryIdForTargetValid(programCategoryId, message);
 		message = dateValid.dateValid(startDate, "Start date", false, message);
 		message = dateValid.dateValid(endDate, "End date", true, message);
-		message = stringLengthValid.lengthValid(report, "Report", 121, true, message);
 		if(!message.isEmpty()) {
 			response.put("message", message);
 			return new ResponseEntity<>(response, HttpStatus.NOT_ACCEPTABLE);
 		}
 		//update
-		Task task = taskService.getOne(id);
-		task.setName(name);
-		task.setStartDate(dateChange.stringToDate(startDate));
-		task.setEndDate(dateChange.stringToDate(endDate));
-		task.setReport(report);
-		task.setTaskCategoryId(taskCategoryId);
-		task.setTargetId(targetId);
-		return new ResponseEntity<>(taskService.update(task), HttpStatus.OK);
+		Target target = targetService.getOne(id);
+		target.setName(name);
+		target.setStartDate(dateChange.stringToDate(startDate));
+		target.setEndDate(dateChange.stringToDate(endDate));
+		target.setTargetCategoryId(targetCategoryId);
+		target.setProgramCategoryId(programCategoryId);
+		return new ResponseEntity<>(targetService.update(target), HttpStatus.OK);
 	 }
-		
+	
 	//delete
 	@ResponseBody
 	@RequestMapping(path = "/api/delete", method = RequestMethod.POST)
@@ -176,100 +157,101 @@ public class TaskController {
 		Map<String, List<String>> response = new HashMap<>();
 		List<String> message = new ArrayList<>();
 		//data check
-		message = idValid.taskIdValid(id, message);
+		message = idValid.targetIdValid(id, message);
 		if(!message.isEmpty()) {
 			response.put("message", message);
 			return new ResponseEntity<>(response, HttpStatus.NOT_ACCEPTABLE);
 		}
 		//delete
-		taskService.delete(id);
-		return new ResponseEntity<>(new Task(), HttpStatus.OK);
+		targetService.delete(id);
+		return new ResponseEntity<>(new Target(), HttpStatus.OK);
 	}
 	
-	//get task data
+	//get target data
 	@ResponseBody
 	@GetMapping(path = "/api/get-one")
-	public Task getOne(Integer id) {
-		return taskService.getOne(id);
+	public Target getOne(Integer id) {
+		return targetService.getOne(id);
 	}
+	
 	
 	/**
-	 * Task Detail
-	 * 
+	 *  Target Detail
 	 */
 	
-
 	@GetMapping(path = "{id}")
 	public String show(Model model, @PathVariable(value = "id") Integer id) {
-		Task task = taskService.getOneWithProgramCategory(id);
-		List<Target> targetList = targetService.getAll();
-		List<TaskCategory> taskCategoryList = taskCategoryService.getAll();
-		TaskDocument document = taskDocumentService.getOneByTaskId(id);
-		model.addAttribute("task", task);
-		model.addAttribute("targetList", targetList);
-		model.addAttribute("taskCategoryList", taskCategoryList);
+		Target target = targetService.getOne(id);
+		List<ProgramCategory> programCategoryList = programCategoryService.getAll();
+		List<TargetCategory> targetCategoryList = targetCategoryService.getAll();
+		List<Task> taskList = taskService.getByTargetId(id);
+		TargetDocument document = targetDocumentService.getByTargetId(id);
+		model.addAttribute("target", target);
+		model.addAttribute("taskList", taskList);
+		model.addAttribute("programCategoryList", programCategoryList);
+		model.addAttribute("targetCategoryList", targetCategoryList);
 		model.addAttribute("document", document);
-		
-		return "task/show";
+		return "target/show";
 	}
 	
-	//create task document
+	//create target document
 	@ResponseBody
 	@RequestMapping(path = "api/document/create", method = RequestMethod.POST)
-	public ResponseEntity<?> createDocument(String purpose, String function, 
-			String item, String period, Integer taskId) {
+	public ResponseEntity<?> createDocument(String overview, String purpose, 
+			String function, String period, Integer targetId) {
 		Map<String, List<String>> response = new HashMap<>();
 		List<String> message = new ArrayList<>();
 		//data check
+		message = stringLengthValid.lengthValid(overview, "Overview", 31, true, message);
 		message = stringLengthValid.lengthValid(purpose, "Purpose", 255, true, message);
 		message = stringLengthValid.lengthValid(function, "Function", 255, true, message);
-		message = stringLengthValid.lengthValid(item, "Item", 255, true, message);
 		message = stringLengthValid.lengthValid(period, "Period", 31, true, message);
-		message = idValid.taskIdForDocumentValid(taskId, message);
+		message = idValid.targetIdForDocumentValid(targetId, message);
 		if(!message.isEmpty()) {
 			response.put("message", message);
 			return new ResponseEntity<>(response, HttpStatus.NOT_ACCEPTABLE);
 		}
 		//create
-		TaskDocument document = new TaskDocument();
-		document.setPurpose(purpose);
+		TargetDocument document = new TargetDocument();
+		document.setOverview(overview);
 		document.setFunction(function);
-		document.setItem(item);
+		document.setPurpose(purpose);
 		document.setPeriod(period);
-		document.setTaskId(taskId);
-		return new ResponseEntity<>(taskDocumentService.create(document), HttpStatus.OK);
+		document.setTargetId(targetId);
+		return new ResponseEntity<>(targetDocumentService.create(document), HttpStatus.OK);
 	}
-		
-	//update task document
+	
+	//update target document
 	@ResponseBody
 	@RequestMapping(path = "api/document/update", method = RequestMethod.POST)
-	public ResponseEntity<?> updateDocument(Integer id, String purpose, String function,
-			String item, String period) {
+	public ResponseEntity<?> updateDocument(Integer id, String overview, 
+			String purpose, String function, String period) {
 		Map<String, List<String>> response = new HashMap<>();
 		List<String> message = new ArrayList<>();
 		//data check
-		message = idValid.taskDocumentIdValid(id, message);
+		message = idValid.targetDocumentIdValid(id, message);
+		message = stringLengthValid.lengthValid(overview, "Overview", 30, true, message);
 		message = stringLengthValid.lengthValid(purpose, "Purpose", 255, true, message);
 		message = stringLengthValid.lengthValid(function, "Function", 255, true, message);
-		message = stringLengthValid.lengthValid(item, "Item", 255, true, message);
-		message = stringLengthValid.lengthValid(period, "Period", 31, true, message);
+		message = stringLengthValid.lengthValid(period, "Period", 30, true, message);
 		if(!message.isEmpty()) {
 			response.put("message", message);
 			return new ResponseEntity<>(response, HttpStatus.NOT_ACCEPTABLE);
 		}
 		//update
-		TaskDocument document = taskDocumentService.getOne(id);
-		document.setPurpose(purpose);
+		TargetDocument document = targetDocumentService.getOne(id);
+		document.setOverview(overview);
 		document.setFunction(function);
-		document.setItem(item);
+		document.setPurpose(purpose);
 		document.setPeriod(period);
-		return new ResponseEntity<>(taskDocumentService.update(document), HttpStatus.OK);
+		return new ResponseEntity<>(targetDocumentService.update(document), HttpStatus.OK);
 	}
 	
-	//get document data
+	//get target document data
 	@ResponseBody
 	@GetMapping(path = "api/document/get-one")
-	public TaskDocument getOneDocument(Integer id) {
-		return taskDocumentService.getOne(id);
+	public TargetDocument getOneDocument(Integer id) {
+		return targetDocumentService.getOne(id);
 	}
+
 }

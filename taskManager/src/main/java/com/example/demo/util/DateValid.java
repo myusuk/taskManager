@@ -22,7 +22,7 @@ public class DateValid {
 			if(nullAble) {
 				return message;
 			}else {
-				message.add(fieldName.toString() + " is not nullable.");
+				message.add(fieldName + " is required.");
 				return message;
 			}
 		}
@@ -30,7 +30,7 @@ public class DateValid {
 		try {
 			dateChange.stringToDate(field);
 		}catch(IllegalArgumentException e) {
-			message.add(fieldName.toString() + " is illegal value.");
+			message.add(fieldName + " is illegal value.");
 		}
 		return message;
 	}

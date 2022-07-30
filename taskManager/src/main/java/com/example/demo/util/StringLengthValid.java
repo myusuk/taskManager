@@ -19,14 +19,14 @@ public class StringLengthValid {
 			if(nullAble) {
 				return message;
 			}else {
-				message.add(fieldName.toString() + " is not nullable.");
+				message.add(fieldName + " is not nullable.");
 				return message;
 			}
 		}
 		//Length check
 		Integer fieldLength = field.length();
 		if(fieldLength.compareTo(length) == 1) {
-			message.add(fieldName.toString() + " enter within " + length.toString() +" characters.");
+			message.add(fieldName + " enter within " + length.toString() +" characters.");
 			return message;
 		}
 		return message;

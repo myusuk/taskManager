@@ -1,25 +1,71 @@
+
 body{
 	background-color: rgba(143, 188, 143, 0.1);
 }
 		
 header{
+	padding-left: 10px;
 	background-color: rgba(89, 101, 120, 0.4);
 }
 		
 ul{
+	margin:0;
 	list-style-type: none;
+}
+
+li{
+	margin-left: 5px;
+}
+
+a{
+	text-decoration:none;
+}
+
+h2{
+	margin: 10px 0;
+}
+
+.h1{
+	margin: 10px;
+}
+
+.side-menu a {
+	color: green;
 }
 		
 .menu{
+	padding: 10px;
 	background-color: rgba(89, 101, 120, 0.7);
+	border-bottom: solid;
+	border-color: rgba(89, 101, 120, 0.4);
 }
 		
 .side-menu{
-	background-color: rgba(143, 188, 143, 0.4);
+	background-color: rgba(143, 188, 143, 0.7);
+	border-right: solid;
+	border-bottom: solid;
+	border-color: rgba(89, 101, 120, 0.7);
+}
+
+.side-menu ul{
+	margin: 8px 0px;
+}
+
+.side-menu hr{
+	height: 2px;
+	margin: 8px 0px;
+	background-color: white;
+	color:white;
+	border: none;
+}
+
+.side-menu span{
+	margin-left: 20px;
 }
 
 .box{
 	background-color:white; 
+	padding-bottom: 10px;
 }
 
 .task-contents{
@@ -27,3 +73,14 @@ ul{
 }
 
 
+.filter{
+	padding: 5px 0;
+}
+
+.box .table{
+	padding: 5px;
+}
+
+.box .btn-primary{
+	margin: 10px;
+}

@@ -14,16 +14,16 @@ public interface TaskRepository  extends CrudRepository<Task, Integer>{
 	List<Task> findAll();
 	
 	@Query("select t from Task t "
-			+ "join fetch t.system s ")
-	List<Task> findAllWithSystem();
+			+ "join fetch t.target ta ")
+	List<Task> findAllWithTarget();
 	
 	@Query("select t from Task t "
-			+ "join fetch t.system s "
-			+ "join fetch s.language l "
+			+ "join fetch t.target ta "
+			+ "join fetch ta.programCategory p "
 			+ "where t.id = :id")
-	Task findOneWithLanguage(@Param("id") Integer id);
+	Task findOneWithProgramCategory(@Param("id") Integer id);
 	
-	List<Task> findBySystemId(Integer systemId);
+	List<Task> findByTargetId(Integer targetId);
 	
 	@Query("select t from Task t "
 			+ "where t.startDate < :date "

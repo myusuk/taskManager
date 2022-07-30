@@ -22,6 +22,16 @@ public class TaskDocumentServiceImpl implements TaskDocumentService {
 	public TaskDocument getOneByTaskId(Integer taskId) {
 		return taskDocumentRepository.findByTaskId(taskId);
 	}
+	
+	@Override
+	public Boolean getExistsById(Integer id) {
+		return taskDocumentRepository.existsById(id);
+	}
+	
+	@Override
+	public Boolean getExistsByTaskId(Integer taskId) {
+		return taskDocumentRepository.existsByTaskId(taskId);
+	}
 
 	@Override
 	public TaskDocument create(TaskDocument document) {
@@ -36,16 +46,6 @@ public class TaskDocumentServiceImpl implements TaskDocumentService {
 	@Override
 	public void delete(Integer id) {
 		taskDocumentRepository.deleteById(id);
-	}
-	
-	@Override
-	public Boolean getExistsById(Integer id) {
-		return taskDocumentRepository.existsById(id);
-	}
-	
-	@Override
-	public Boolean getExistsByTaskId(Integer taskId) {
-		return taskDocumentRepository.existsByTaskId(taskId);
 	}
 	
 }
