@@ -19,24 +19,37 @@
 			</div>
 		</header>
 		<div class="row menu">
-			<p>menu
+			<a th:href="@{/}">Calender</a>
 		</div>
 		
 		<div class="row">
 			<div class="container col-2 side-menu">
 				<table class="table">
 					<tr>
-						<td><a th:href="@{/language}" th:text="Language"/><th>
+						<td id="taskManagementMenu" class="secList">
+							<span class="h5">Task Management</span>
+							<ul class="taskManagementMenu section">
+								<li><a th:href="@{/system}">System</a></li><hr size="1">
+								<li><a th:href="@{/task}">Task</a></li><hr size="1">
+								<li><a th:href="@{/}">Book</a></li><hr size="1">
+								<li><a th:href="@{/}">Qualification</a></li>
+							</ul>
+						<td>
 					</tr>
 					<tr>
-						<td><a th:href="@{/system}" th:text="System"/></td>
-					</tr>
-					<tr>
-						<td><a th:href="@{/task}" th:text="Task"/></td>
+						<td id="categoryManagementMenu" class="secList"> 
+							<span class="h5">Category Management</span>
+							<ul class="categoryManagementMenu section">
+								<li><a th:href="@{/language}">Language</a></li><hr size="1">
+								<li><a th:href="@{/}">System Category</a></li><hr size="1">
+								<li><a th:href="@{/}">Task Category</a></li><hr size="1">
+								<li><a th:href="@{/}">Book Category</a></li>
+							</ul>
+						</td>
 					</tr>
 				</table>
 			</div>
-			<div layout:fragment="content" class="container col-10">
+			<div layout:fragment="content" class="container main-content col-10">
 				Main content
 			</div>
 		</div>
@@ -45,6 +58,7 @@
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 	<div layout:fragment="javascript"></div >
 	<!-- script file -->
+	<script th:src="@{/js/home.js}"></script>
 	<script th:src="@{/js/language.js}"></script>
 	<script th:src="@{/js/system.js}"></script>
 	<script th:src="@{/js/task.js}"></script>

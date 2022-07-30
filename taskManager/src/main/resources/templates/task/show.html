@@ -38,7 +38,7 @@
 			    		</tr>
 			    		<tr>
 			    			<th class="table-info">Report</th>
-			    			<td th:text="${task.report == null} ? '-' : ${task.report}"></td>
+			    			<td th:text="${task.report.isBlank()} ? '-' : ${task.report}"></td>
 			    		</tr>
 			    	</table>
 				</div>

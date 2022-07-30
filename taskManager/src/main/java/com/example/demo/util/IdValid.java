@@ -38,7 +38,7 @@ public class IdValid {
 	
 	public List<String> languageIdValid(Integer languageId, List<String> message){
 		if(Objects.isNull(languageId)) {
-			message.add("Language is null.");
+			message.add("Language is not nullable.");
 			return message;
 		}
 		if(!languageService.getExistsById(languageId)) {
@@ -54,7 +54,7 @@ public class IdValid {
 			return message;
 		}
 		if(languageId.equals(0)) {
-			message.add("Language is not selected.");
+			message.add("Language is required.");
 			return message;
 		}
 		if(!languageService.getExistsById(languageId)) {
@@ -87,7 +87,7 @@ public class IdValid {
 			return message;
 		}
 		if(systemId.equals(0)) {
-			message.add("System is not selected.");
+			message.add("System is required.");
 			return message;
 		}
 		if(!systemService.getExistsById(systemId)) {
@@ -120,11 +120,11 @@ public class IdValid {
 	
 	public List<String> systemDocumentIdValid(Integer documentId, List<String> message){
 		if(Objects.isNull(documentId)) {
-			message.add("Document is not not found.");
+			message.add("Document is not found.");
 			return message;
 		}
 		if(!systemDocumentService.getExistsById(documentId)) {
-			message.add("Document is not not found.");
+			message.add("Document is not found.");
 			return message;
 		}
 		return message;
@@ -170,11 +170,11 @@ public class IdValid {
 	
 	public List<String> taskDocumentIdValid(Integer documentId, List<String> message){
 		if(Objects.isNull(documentId)) {
-			message.add("Document is not not found.");
+			message.add("Document is not found.");
 			return message;
 		}
 		if(!taskDocumentService.getExistsById(documentId)) {
-			message.add("Document is not not found.");
+			message.add("Document is not found.");
 			return message;
 		}
 		return message;

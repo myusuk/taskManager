@@ -9,7 +9,11 @@
 
 	<div layout:fragment="content" class="container col-10" style="float:left">
 		<div class="container col-12" style="float:left">
-			<legend th:text="InProcessTask"></legend>
+			<div>
+				<legend>Today  :  <span id="time"></span></legend>
+				
+			</div>
+			<legend>In Process Task</legend>
 			<div class="container box" th:if="${taskList.size()} != 0">
 				<table class="table table-striped table-bordered table-condensed">
 					<thead>
