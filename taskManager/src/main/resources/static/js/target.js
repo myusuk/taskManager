@@ -1,7 +1,7 @@
 $(function(){
 	
 	var url = {
-		task: "/task",
+		target: "/target",
 		document: "/document",
 		api: "/api",
 		getOne: "/get-one"
@@ -12,45 +12,44 @@ $(function(){
 		delete: "/delete"
 	};
 	var $modal = {
-		task : $("#task-modal"),
-		taskDocument : $("#task-document-modal")
+		target : $("#target-modal"),
+		targetDocument: $("#target-document-modal")
 	};
 	
 	var modalType;
 	var id;
 	var name;
-	var targetId;
-	var targetName;
-	var taskCategoryId;
-	var taskCategoryName;
+	var targetCategoryId;
+	var targetCategoryName;
+	var programCategoryId;
+	var programCategoryName;
 	var startDate;
 	var endDate;
-	var report;
-	var task;
+	var target;
 	
-	var taskId;
+	var targetId;
+	var overview;
 	var purpose;
 	var func;
-	var item;
 	var period;
 	var documentId;
-	var taskDocument;
+	var targetDocument;
 	
 	modalEvent();
 	clickEvent();
-	showComplateTaskEvent();
+	showReleasedTargetEvent();
 	
 	documentModalEvent();
 	documentClickEvent();
 	
 	/**
-	 * Task Evennt
+	 *  Target Event
 	 *
 	 */
-	
+	 
 	// show modal event
 	function modalEvent(){
-			$modal.task.on("show.bs.modal", function (event){
+			$modal.target.on("show.bs.modal", function (event){
 			modalReset();
 			
 			var $button = $(event.relatedTarget);
@@ -59,55 +58,51 @@ $(function(){
 			
 			switch(modalType){
 				case ("create"):
-					$modal.task
-						.find("#modal-title").text("Task create").end();
+					$modal.target
+						.find("#modal-title").text("Target create").end();
 					break;
 				case ("update"):
 					getOne(id).done(function(res){
-						task = res;
-						$modal.task
-							.find("#modal-title").text("Task update").end()
-							.find("#name").val(task.name).end()
-							.find("#targetId").val(task.targetId).end()
-							.find("#taskCategoryId").val(task.taskCategoryId).end()
-							.find("#startDate").val(task.startDate).end()
-							.find("#endDate").val(task.endDate).end()
-							.find("#report").val(task.report).end();
+						target = res;
+						$modal.target
+							.find("#modal-title").text("Target update").end()
+							.find("#name").val(target.name).end()
+							.find("#targetCategoryId").val(target.targetCategoryId).end()
+							.find("#programCategoryId").val(target.programCategoryId).end()
+							.find("#startDate").val(target.startDate).end()
+							.find("#endDate").val(target.endDate).end();
 					}).fail(function(res){
-						var message = "The error occured when get selected task.";
-						$modal.task
+						var message = "The error occured when get selected target.";
+						$modal.target
 								.find("#errorMessage").show().end()
 								.find("#errorMessage").text(message).end();
 					})
 					break;
 				case("delete"):
-					targetName = $button.data("target-name");
-					taskCategoryName = $button.data("category-vame");
+					targetCategoryName = $button.data("category-name");
+					programCategoryName = $button.data("program-name");
 					getOne(id).done(function(res){
-						task = res;
-						$modal.task
-							.find("#modal-title").text("Task delete").end()
+						target = res;
+						$modal.target
+							.find("#modal-title").text("Target delete").end()
 							.find("#name").hide().end()
-							.find("#targetId").hide().end()
-							.find("#taskCategoryId").hide().end()
+							.find("#targetCategoryId").hide().end()
+							.find("#programCategoryId").hide().end()
 							.find("#startDate").hide().end()
 							.find("#endDate").hide().end()
-							.find("#report").hide().end()
 							.find("#deleteName").show().end()
-							.find("#deleteName").text(task.name).end()
-							.find("#deleteTarget").show().end()
-							.find("#deleteTarget").text(targetName).end()
-							.find("#deleteTaskCategory").show().end()
-							.find("#deleteTaskCategory").text(taskCategoryName).end()
+							.find("#deleteName").text(target.name).end()
+							.find("#deleteTargetCategory").show().end()
+							.find("#deleteTargetCategory").text(targetCategoryName).end()
+							.find("#deleteProgramCategory").show().end()
+							.find("#deleteProgramCategory").text(programCategoryName).end()
 							.find("#deleteStartDate").show().end()
-							.find("#deleteStartDate").text(task.startDate).end()
+							.find("#deleteStartDate").text(target.startDate).end()
 							.find("#deleteEndDate").show().end()
-							.find("#deleteEndDate").text(task.endDate).end()
-							.find("#deleteReport").show().end()
-							.find("#deleteReport").text(task.report).end();
+							.find("#deleteEndDate").text(target.endDate).end();
 					}).fail(function(res){
-						var message =  "The error occured when get selected task.";
-						$modal.task
+						var message =  "The error occured when get selected target.";
+						$modal.target
 								.find("#errorMessage").show().end()
 								.find("#errorMessage").text(message).end();
 					})
@@ -138,7 +133,7 @@ $(function(){
 					})
 					break;
 				case("delete"):
-					deleteTask().done(function(){
+					deleteTarget().done(function(){
 							window.location.reload();
 						}).fail(function(res){
 							var message = (res.responseJSON["message"]);
@@ -151,56 +146,51 @@ $(function(){
 	
 	//modal data reset function
 	function modalReset(){
-		$modal.task
+		$modal.target
 			.find("#errorMessage").hide().end()
 			.find("#name").show().end()
 			.find("#name").val("").end()
-			.find("#targetId").show().end()
-			.find("#targetId").val(0).end()
-			.find("#taskCategoryId").show().end()
-			.find("#taskCategorytId").val(0).end()
+			.find("#targetCategoryId").show().end()
+			.find("#targetCategoryId").val(0).end()
+			.find("#programCategoryId").show().end()
+			.find("#programCategoryId").val(null).end()
 			.find("#startDate").show().end()
 			.find("#startDate").val("").end()
 			.find("#endDate").show().end()
 			.find("#endDate").val("").end()
-			.find("#report").show().end()
-			.find("#report").val("").end()
 			.find("#deleteName").hide().end()
-			.find("#deleteTarget").hide().end()
-			.find("#deleteTaskCategory").hide().end()
+			.find("#deleteTargetCategory").hide().end()
+			.find("#deleteProgramCategory").hide().end()
 			.find("#deleteStartDate").hide().end()
-			.find("#deleteEndDate").hide().end()
-			.find("#deleteReport").hide().end();
+			.find("#deleteEndDate").hide().end();
 	}
 	
 	//set form data
 	function setFormData(){
-		name= $modal.task.find("#name").val();
-		targetId = $modal.task.find("#targetId").val();
-		taskCategoryId = $modal.task.find("#taskCategoryId").val();
-		startDate = $modal.task.find("#startDate").val();
-		endDate = $modal.task.find("#endDate").val();
-		report = $modal.task.find("#report").val();
+		name = $modal.target.find("#name").val();
+		targetCategoryId = $modal.target.find("#targetCategoryId").val();
+		programCategoryId = $modal.target.find("#programCategoryId").val();
+		startDate = $modal.target.find("#startDate").val();
+		endDate = $modal.target.find("#endDate").val();
 	}
 	
-	// show erro message
+	// show error message
 	function showErrorMessage(message){
 		var html = "";
 		message.forEach( function( value ) {
-		     html += "<span>" + value + "</span><br>"
+		    html += "<span>" + value + "</span><br>"
 		});
-		$modal.task
+		$modal.target
 			.find("#errorMessage").show().end()
 			.find("#errorMessage").html(html).end();
 	}
 	
 	
-	
-	//get task data
+	//get target data
 	function getOne(id){
 		var def = new $.Deferred;
 		$.ajax({
-				url: url.task+ url.api + url.getOne ,
+				url: url.target+ url.api + url.getOne ,
 				type: 'GET',
 				data: {id : id},
 				dataType: 'json'
@@ -216,10 +206,10 @@ $(function(){
 	function create(){
 		var def = new $.Deferred;
 		$.ajax({
-				url: url.task + url.api + formType.create,
+				url: url.target + url.api + formType.create,
 				type: 'POST',
-				data: {name: name, startDate: startDate, endDate: endDate, report: report, 
-					taskCategoryId: taskCategoryId, targetId: targetId},
+				data: {name : name, startDate: startDate, endDate: endDate, 
+							programCategoryId: programCategoryId, targetCategoryId: targetCategoryId},
 				dataType: 'json',
 			}).done(function(res){
 				def.resolve(res);
@@ -233,10 +223,10 @@ $(function(){
 	function update(){
 		var def = new $.Deferred;
 		$.ajax({
-				url: url.task + url.api + formType.update,
+				url: url.target + url.api + formType.update,
 				type: 'POST',
-				data: {id: id, name: name, startDate: startDate, endDate: endDate, report: report, 
-					taskCategoryId: taskCategoryId, targetId: targetId},
+				data: {id: id, name : name, startDate: startDate, endDate: endDate, 
+							programCategoryId: programCategoryId, targetCategoryId: targetCategoryId},
 				dataType: 'json',
 			}).done(function(res){
 				def.resolve(res);
@@ -247,10 +237,10 @@ $(function(){
 	}
 	
 	//delete function
-	function deleteTask(){
+	function deleteTarget(){
 		var def = new $.Deferred;
 		$.ajax({
-				url: url.task + url.api + formType.delete,
+				url: url.target + url.api + formType.delete,
 				type: 'POST',
 				data: {id: id},
 				dataType: 'json',
@@ -263,46 +253,46 @@ $(function(){
 	}
 	
 	
-	//Complated task show event
-	function showComplateTaskEvent(){
+	//Released target show event
+	function showReleasedTargetEvent(){
 		$('#showButton').click(function(){
-			$('#endTaskTable').removeClass('fade');
+			$('#endTargetTable').removeClass('fade');
 			$('#showTableButton').addClass('fade');
 		})
 	}
 	
 	/**
-	 *  Task Document Event
+	 *  Target Document Event
 	 *
 	 */
 	 
 	 // show modal event
 	function documentModalEvent(){
-			$modal.taskDocument.on("show.bs.modal", function (event){
+			$modal.targetDocument.on("show.bs.modal", function (event){
 			documentModalReset();
 			
 			var $button = $(event.relatedTarget);
-			taskId = $button.data("task-id");
+			targetId = $button.data("target-id");
 			documentId =  $button.data("id");
 			modalType = $button.data("type");
 			
 			switch(modalType){
 				case ("create"):
-					$modal.taskDocument
-						.find("#document-modal-title").text("Task document create").end();
+					$modal.targetDocument
+						.find("#document-modal-title").text("Target document create").end();
 					break;
 				case ("update"):
 					getOneDocument(documentId).done(function(res){
-						taskDocument = res;
-						$modal.taskDocument
-							.find("#document-modal-title").text("Task document update").end()
-							.find("#purpose").val(taskDocument.purpose).end()
-							.find("#function").val(taskDocument.function).end()
-							.find("#item").val(taskDocument.item).end()
-							.find("#period").val(taskDOcument.period).end();
+						targetDocument = res;
+						$modal.targetDocument
+							.find("#document-modal-title").text("Target document update").end()
+							.find("#overview").val(targetDocument.overview).end()
+							.find("#purpose").val(targetDocument.purpose).end()
+							.find("#function").val(targetDocument.function).end()
+							.find("#period").val(targetDOcument.period).end();
 					}).fail(function(res){
-						var message = "The error occured when get selected task document.";
-						$modal.taskDocument
+						var message = "The error occured when get selected target document.";
+						$modal.targetDocument
 								.find("#document-errorMessage").show().end()
 								.find("#document-errorMessage").text(message).end();
 					})
@@ -338,20 +328,20 @@ $(function(){
 	
 	//modal data reset function
 	function documentModalReset(){
-		$modal.taskDocument
+		$modal.targetDocument
 			.find("#document-errorMessage").hide().end()
+			.find("#overview").val("").end()
 			.find("#purpose").val("").end()
 			.find("#function").val("").end()
-			.find("#item").val("").end()
 			.find("#period").val("").end();
 	}
 	
 	//set form data
 	function setFormDocumentData(){
-		purpose = $modal.taskDocument.find("#purpose").val();
-		func = $modal.taskDocument.find("#function").val();
-		item = $modal.taskDocument.find("#item").val();
-		period = $modal.taskDocument.find("#period").val();
+		overview = $modal.targetDocument.find("#overview").val();
+		purpose = $modal.targetDocument.find("#purpose").val();
+		func = $modal.targetDocument.find("#function").val();
+		period = $modal.targetDocument.find("#period").val();
 	}
 	
 	// show erro message
@@ -360,16 +350,17 @@ $(function(){
 		message.forEach( function( value ) {
 		     html += "<span>" + value + "</span><br>"
 		});
-		$modal.taskDocument
+		$modal.targetDocument
 			.find("#document-errorMessage").show().end()
 			.find("#document-errorMessage").html(html).end();
 	}
+	
 	
 	//get target data
 	function getOneDocument(documentId){
 		var def = new $.Deferred;
 		$.ajax({
-				url: url.task+ url.api + url.document +  url.getOne ,
+				url: url.target + url.api + url.document +  url.getOne ,
 				type: 'GET',
 				data: {id : documentId},
 				dataType: 'json'
@@ -385,9 +376,9 @@ $(function(){
 	function documentCreate(){
 		var def = new $.Deferred;
 		$.ajax({
-				url: url.task + url.api + url.document + formType.create,
+				url: url.target + url.api + url.document + formType.create,
 				type: 'POST',
-				data: {purpose: purpose, function: func, item: item, period: period, taskId: taskId},
+				data: {overview: overview, purpose: purpose, function: func, period: period, targetId: targetId},
 				dataType: 'json',
 			}).done(function(res){
 				def.resolve(res);
@@ -401,9 +392,9 @@ $(function(){
 	function documentUpdate(){
 		var def = new $.Deferred;
 		$.ajax({
-				url: url.task + url.api + url.document + formType.update,
+				url: url.target + url.api + url.document + formType.update,
 				type: 'POST',
-				data: {id: documentId, purpose: purpose, function: func, item: item, period: period},
+				data: {id: documentId, overview: overview, purpose: purpose, function: func, period: period},
 				dataType: 'json',
 			}).done(function(res){
 				def.resolve(res);
@@ -412,5 +403,5 @@ $(function(){
 			})
 		return def.promise();
 	}
-		
+	
 })

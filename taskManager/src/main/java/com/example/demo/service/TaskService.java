@@ -10,9 +10,9 @@ public interface TaskService {
 
     public Task getOne(Integer id); 
     
-    public Task getOneWithLanguage(Integer id);
+    public Task getOneWithProgramCategory(Integer id);
     
-    public List<Task> getBySystemId(Integer systemId);
+    public List<Task> getByTargetId(Integer targetId);
     
     public Boolean getExistsById(Integer id);
 

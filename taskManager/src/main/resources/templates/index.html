@@ -11,7 +11,6 @@
 		<div class="container col-12" style="float:left">
 			<div>
 				<legend>Today  :  <span id="time"></span></legend>
-				
 			</div>
 			<legend>In Process Task</legend>
 			<div class="container box" th:if="${taskList.size()} != 0">
@@ -19,15 +18,15 @@
 					<thead>
 			        	<tr>
 			                <th>Id</th>
-			                <th>System</th>
-			                <th>Overview</th>
+			                <th>Target</th>
+			                <th>Tasl</th>
 			            </tr>
 					</thead>
 					<tbody>
 			            <tr th:each="task : ${taskList}">
 			                <td th:text="${task.id}"></td>
-			                <td><a th:href="@{/system/} + ${task.systemId}" th:text="${task.system.name}"/></td>
-			                <td><a th:href="@{/task/} + ${task.id}" th:text="${task.overview}"/></td>
+			                <td><a th:href="@{/target/} + ${task.targetId}" th:text="${task.target.name}"/></td>
+			                <td><a th:href="@{/task/} + ${task.id}" th:text="${task.name}"/></td>
 			            </tr>
 					</tbody>
 		        </table>

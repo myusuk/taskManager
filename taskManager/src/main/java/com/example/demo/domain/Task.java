@@ -29,8 +29,8 @@ public class Task {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	@Column(name="overview")
-	private String overview;
+	@Column(name="name")
+	private String name;
 	
 	@Temporal(TemporalType.DATE)
 	@Column(name="start_date")
@@ -43,13 +43,21 @@ public class Task {
 	@Column(name="report")
 	private String report;
 	
-	@Column(name="system_id")
-	private Integer systemId;
+	@Column(name="target_id")
+	private Integer targetId;
+	
+	@Column(name="task_category_id")
+	private Integer taskCategoryId;
 	
 	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(nullable = true, name = "system_id", insertable = false, updatable = false)
-    private System system;
+    @JoinColumn(nullable = true, name = "target_id", insertable = false, updatable = false)
+    private Target target;
+	
+	@JsonIgnore
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(nullable = true, name = "task_category_id",  insertable = false, updatable = false)
+    private TaskCategory taskCategory;
 	
 	@JsonIgnore
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "task")

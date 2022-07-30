@@ -11,15 +11,34 @@
 			<h2>Task Management</h2>
 			<div class="container box">
 				<div>
-					<label>Language：</label>
-					<a th:href="@{/task(languageId=0)}" th:text="All" 
-								class="btn btn-outline-success"  th:value="0" th:classappend="${languageId == 0}? 'active': ''"/>
-					<span th:each="language: ${languageList}">
-						<a th:href="@{/task(languageId=${language.id})}" th:text="${language.name}" 
-								class="btn btn-outline-success" th:classappend="${languageId == language.id}? 'active': ''"/>
-					</span>
+					<div class="filter">
+						<label>Task Category：</label>
+						<a th:href="@{/task(tc=0, ta=${ta}, pc=${pc})}" th:text="All" 
+									class="btn btn-outline-success"  th:value="0" th:classappend="${tc == 0}? 'active': ''"/>
+						<span th:each="taskCategory: ${taskCategoryList}">
+							<a th:href="@{/task(tc=${taskCategory.id}, ta=${ta}, pc=${pc})}" th:text="${taskCategory.name}" 
+									class="btn btn-outline-success"  th:classappend="${tc == taskCategory.id}? 'active': ''"/>
+						</span>
+					</div>
+					<div class="filter">
+						<label>Target Category：</label>
+						<a th:href="@{/task(tc=${tc}, ta=0, pc=${pc})}" th:text="All" 
+									class="btn btn-outline-success"  th:value="0" th:classappend="${ta == 0}? 'active': ''"/>
+						<span th:each="targetCategory: ${targetCategoryList}">
+							<a th:href="@{/task(tc=${tc},ta=${targetCategory.id}, pc=${pc})}" th:text="${targetCategory.name}" 
+									class="btn btn-outline-success"  th:classappend="${ta == targetCategory.id}? 'active': ''"/>
+						</span>
+					</div>
+					<div class="filter">
+						<label>Program Category：</label>
+						<a th:href="@{/task(tc=${tc}, ta=${ta}, pc=0)}" th:text="All" 
+									class="btn btn-outline-success"  th:value="0" th:classappend="${pc == 0}? 'active': ''"/>
+						<span th:each="programCategory: ${programCategoryList}">
+							<a th:href="@{/task(tc=${tc}, ta=${ta}, pc=${programCategory.id})}" th:text="${programCategory.name}" 
+									class="btn btn-outline-success"  th:classappend="${pc == programCategory.id}? 'active': ''"/>
+						</span>
+					</div>
 				</div>
-				<p></p>
 				<table class="table table-striped table-bordered table-condensed">
 					<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#task-modal"
 					   	data-type='create'>
@@ -28,9 +47,10 @@
 		        	<thead>
 			        	<tr>
 			                <th>Id</th>
-			                <th>Overview</th>
-			                <th>System</th>
-			                <th>Language</th>
+			                <th>Name</th>
+			                <th>Target</th>
+			                <th>Category</th>
+			                <th>Program</th>
 			                <th>Start date</th>
 			                <th>End date</th>
 			                <th colspan="1"></th>
@@ -40,9 +60,10 @@
 		        	<tbody>
 			            <tr th:each="task : ${taskList}" th:if="${task.endDate == null}">
 				                <td th:text="${task.id}"/></td>
-				                <td><a th:href="@{/task/} + ${task.id}" th:text="${task.overview}"></td>
-				                <td th:text="${task.system.name}"></td>
-				                <td th:text="${task.system.language.name}"></td>
+				                <td><a th:href="@{/task/} + ${task.id}" th:text="${task.name}"></td>
+				                <td th:text="${task.target.name}"></td>
+				                <td th:text="${task.taskCategory.name}"></td>
+				                <td th:text="${task.target.programCategory == null}? '-': ${task.target.programCategory.name}"></td>
 				                <td th:text="${task.startDate}"></td>
 				                <td th:text="${task.endDate == null}? '-': ${task.endDate}"></td>
 				                <td>
@@ -53,7 +74,8 @@
 				                </td>
 				                <td>
 					                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#task-modal" 
-					                	th:data-id="${task.id}" th:data-system-name="${task.system.name}" data-type='delete'>
+					                	th:data-id="${task.id}" th:data-target-name="${task.target.name}" 
+					                	th:data-category-vame="${task.taskCategory.name} "data-type='delete'>
 					        			Delete
 					        		</button>
 				                </td>
@@ -70,9 +92,10 @@
 			        	<thead>
 				        	<tr>
 				                <th>Id</th>
-				                <th>Overview</th>
-				                <th>System</th>
-				                <th>Language</th>
+				                <th>Name</th>
+				                <th>Target</th>
+				                <th>Category</th>
+				                <th>Program</th>
 				                <th>Start date</th>
 				                <th>End date</th>
 				                <th colspan="1"></th>
@@ -82,9 +105,10 @@
 			        	<tbody>
 				            <tr th:each="task : ${taskList}" th:if="${task.endDate != null}">
 					                <td th:text="${task.id}"/></td>
-					                <td><a th:href="@{/task/} + ${task.id}" th:text="${task.overview}"></td>
-					                <td th:text="${task.system.name}"></td>
-					                <td th:text="${task.system.language.name}"></td>
+					                <td><a th:href="@{/task/} + ${task.id}" th:text="${task.name}"></td>
+					                <td th:text="${task.target.name}"></td>
+					                <td th:text="${task.taskCategory.name}"></td>
+					                <td th:text="${task.target.programCategory == null}? '-': ${task.target.programCategory.name}"></td>
 					                <td th:text="${task.startDate}"></td>
 					                <td th:text="${task.endDate}"></td>
 					                <td>
@@ -94,8 +118,9 @@
 						        		</button>
 					                </td>
 					                <td>
-						                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#task-modal" 
-						                	th:data-id="${task.id}" th:data-system-name="${task.system.name}"data-type='delete'>
+						                 <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#task-modal" 
+						                	th:data-id="${task.id}" th:data-target-name="${task.target.name}" 
+						                	th:data-category-vame="${task.taskCategory.name} "data-type='delete'>
 						        			Delete
 						        		</button>
 					                </td>
@@ -104,7 +129,7 @@
 			        </table>
 		        </div>
 			</div>
-	        <div th:include="/modal/task/task :: task-modal"></div>
+	        <div th:include="/modal/task :: task-modal"></div>
 		</div>
 	</div>
 </body>

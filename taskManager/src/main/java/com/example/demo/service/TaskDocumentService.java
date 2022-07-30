@@ -7,6 +7,10 @@ public interface TaskDocumentService {
     public TaskDocument getOne(Integer id);
     
     public TaskDocument getOneByTaskId(Integer taskId);
+    
+    public Boolean getExistsById(Integer id);
+    
+    public Boolean getExistsByTaskId(Integer taskId);
 
     public TaskDocument create(TaskDocument document);
 
@@ -14,8 +18,4 @@ public interface TaskDocumentService {
 
     public void delete(Integer id);
     
-    public Boolean getExistsById(Integer id);
-    
-    public Boolean getExistsByTaskId(Integer taskId);
-
 }

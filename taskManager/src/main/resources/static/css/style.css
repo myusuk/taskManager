@@ -1,19 +1,15 @@
-*{
-  margin:0;
-  padding:0;
-}
 
 body{
 	background-color: rgba(143, 188, 143, 0.1);
 }
 		
 header{
+	padding-left: 10px;
 	background-color: rgba(89, 101, 120, 0.4);
 }
 		
 ul{
 	margin:0;
-  	padding:0;
 	list-style-type: none;
 }
 
@@ -25,54 +21,66 @@ a{
 	text-decoration:none;
 }
 
+h2{
+	margin: 10px 0;
+}
+
+.h1{
+	margin: 10px;
+}
+
 .side-menu a {
 	color: green;
 }
 		
 .menu{
+	padding: 10px;
 	background-color: rgba(89, 101, 120, 0.7);
+	border-bottom: solid;
+	border-color: rgba(89, 101, 120, 0.4);
 }
 		
 .side-menu{
-	margin-right: 0;
-	padding-right:0;
 	background-color: rgba(143, 188, 143, 0.7);
+	border-right: solid;
+	border-bottom: solid;
+	border-color: rgba(89, 101, 120, 0.7);
+}
+
+.side-menu ul{
+	margin: 8px 0px;
+}
+
+.side-menu hr{
+	height: 2px;
+	margin: 8px 0px;
+	background-color: white;
+	color:white;
+	border: none;
+}
+
+.side-menu span{
+	margin-left: 20px;
 }
 
 .box{
-	margin:0;
-  	padding:0;
 	background-color:white; 
+	padding-bottom: 10px;
 }
 
 .task-contents{
 	float: left;
 }
 
-.side-menu table{
-	width: 100%;
-	margin-right: 0;
-	padding-right:0;
+
+.filter{
+	padding: 5px 0;
 }
 
-.side-menu hr{
-	height: 2px;
-	margin: 0;
-	padding:0;
-	background-color: white;
-	color:white;
-	border: none;
+.box .table{
+	padding: 5px;
 }
 
-.side-menu td{
-	margin-right: 0;
-	padding-right:0;
+.box .btn-primary{
+	margin: 10px;
 }
-
-.main-content{
-	margin-right:0;
-  	padding-right:0;
-}
-	
-
-

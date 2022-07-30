@@ -29,8 +29,16 @@
 						<td id="taskManagementMenu" class="secList">
 							<span class="h5">Task Management</span>
 							<ul class="taskManagementMenu section">
-								<li><a th:href="@{/system}">System</a></li><hr size="1">
 								<li><a th:href="@{/task}">Task</a></li><hr size="1">
+								<li><a th:href="@{/target}">Target</a></li>
+							</ul>
+						<td>
+					</tr>
+					<tr>
+						<td id="targetManagementMenu" class="secList">
+							<span class="h5">Target Management</span>
+							<ul class="targetManagementMenu section">
+								<li><a th:href="@{/}">Develop</a></li><hr size="1">
 								<li><a th:href="@{/}">Book</a></li><hr size="1">
 								<li><a th:href="@{/}">Qualification</a></li>
 							</ul>
@@ -40,10 +48,25 @@
 						<td id="categoryManagementMenu" class="secList"> 
 							<span class="h5">Category Management</span>
 							<ul class="categoryManagementMenu section">
-								<li><a th:href="@{/language}">Language</a></li><hr size="1">
-								<li><a th:href="@{/}">System Category</a></li><hr size="1">
-								<li><a th:href="@{/}">Task Category</a></li><hr size="1">
-								<li><a th:href="@{/}">Book Category</a></li>
+								<li><a th:href="@{/task-category}">Task Category</a></li><hr size="1">
+								<li><a th:href="@{/target-category}">Target Category</a></li><hr size="1">
+								<li><a th:href="@{/program-category}">Program Category</a></li>
+							</ul>
+						</td>
+					</tr>
+					<tr>
+						<td id="scheduleMenu" class="secList"> 
+							<span class="h5">Schedule</span>
+							<ul class="scheduleMenu section">
+								<li><a th:href="@{/}">Schedule</a></li>
+							</ul>
+						</td>
+					</tr>
+					<tr>
+						<td id="analyticsMenu" class="secList"> 
+							<span class="h5">Analytics</span>
+							<ul class="analyticsMenu section">
+								<li><a th:href="@{/}">Sample</a></li>
 							</ul>
 						</td>
 					</tr>
@@ -59,8 +82,10 @@
 	<div layout:fragment="javascript"></div >
 	<!-- script file -->
 	<script th:src="@{/js/home.js}"></script>
-	<script th:src="@{/js/language.js}"></script>
-	<script th:src="@{/js/system.js}"></script>
+	<script th:src="@{/js/program-category.js}"></script>
+	<script th:src="@{/js/target.js}"></script>
+	<script th:src="@{/js/target-category.js}"></script>
 	<script th:src="@{/js/task.js}"></script>
+	<script th:src="@{/js/task-category.js}"></script>
 </body>
 </html>
