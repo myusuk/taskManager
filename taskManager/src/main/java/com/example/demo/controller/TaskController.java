@@ -95,18 +95,15 @@ public class TaskController {
 					.collect(Collectors.toList());
 		}
 		List<Target> targetList = targetService.getAll();
-		List<TargetCategory> targetCategoryList = targetCategoryService.getAll();
-		List<ProgramCategory> programCategoryList = programCategoryService.getAll();
-		List<TaskCategory> taskCategoryList = taskCategoryService.getAll();
 		
 		model.addAttribute("tc", tc);
 		model.addAttribute("ta", ta);
 		model.addAttribute("pc", pc);
 		model.addAttribute("taskList", taskList);
 		model.addAttribute("targetList", targetList);
-		model.addAttribute("programCategoryList", programCategoryList);
-		model.addAttribute("targetCategoryList", targetCategoryList);
-		model.addAttribute("taskCategoryList", taskCategoryList);
+		model.addAttribute("programCategoryList", programCategoryService.getAll());
+		model.addAttribute("targetCategoryList", targetCategoryService.getAll());
+		model.addAttribute("taskCategoryList", taskCategoryService.getAll());
 		return "task/index";
 	}
 	
@@ -203,11 +200,12 @@ public class TaskController {
 	public String show(Model model, @PathVariable(value = "id") Integer id) {
 		Task task = taskService.getOneWithProgramCategory(id);
 		List<Target> targetList = targetService.getAll();
-		List<TaskCategory> taskCategoryList = taskCategoryService.getAll();
 		TaskDocument document = taskDocumentService.getOneByTaskId(id);
 		model.addAttribute("task", task);
 		model.addAttribute("targetList", targetList);
-		model.addAttribute("taskCategoryList", taskCategoryList);
+		model.addAttribute("programCategoryList", programCategoryService.getAll());
+		model.addAttribute("targetCategoryList", targetCategoryService.getAll());
+		model.addAttribute("taskCategoryList", taskCategoryService.getAll());
 		model.addAttribute("document", document);
 		
 		return "task/show";
