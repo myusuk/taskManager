@@ -32,7 +32,7 @@
 				</div>
 				<table class="table table-striped table-bordered table-condensed">
 					   <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#target-modal"
-					   		data-type='create'>
+					   		data-type='create'><i class="bi bi-plus-square"></i>
 		        			Create
 		        		</button>
 		        	<thead>
@@ -56,15 +56,15 @@
 			                <td th:text="${target.startDate}"></td>
 			                <td th:text="${target.endDate == null}? '-': ${target.endDate}"></td>
 			                <td>
-				                <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#target-modal"
-				                	th:data-id="${target.id}" data-type='update'>
+				                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#target-modal"
+				                	th:data-id="${target.id}" data-type='update'><i class="bi bi-arrow-clockwise"></i>
 				        			Update
 				        		</button>
 			                </td>
 			                <td>
 				                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#target-modal" 
 				                	th:data-id="${target.id}" th:data-program-name="${target.programCategory == null}? '-':${target.programCategory.name}" 
-				                	th:data-category-name="${target.targetCategory.name}" data-type='delete'>
+				                	th:data-category-name="${target.targetCategory.name}" data-type='delete'><i class="bi bi-x-square"></i>
 				        			Delete
 				        		</button>
 			                </td>
@@ -99,15 +99,15 @@
 				                <td th:text="${target.startDate}"></td>
 				                <td th:text="${target.endDate == null}? '-': ${target.endDate}"></td>
 				                <td>
-					                <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#target-modal"
-					                	th:data-id="${target.id}" data-type='update'>
+					                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#target-modal"
+					                	th:data-id="${target.id}" data-type='update'><i class="bi bi-arrow-clockwise"></i>
 					        			Update
 					        		</button>
 				                </td>
 				                <td>
 					                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#target-modal" 
 					                	th:data-id="${target.id}" th:data-program-name="${target.programCategory == null}? '-':${target.programCategory.name}" 
-					                	th:data-category-name="${target.targetCategory.name}" data-type='delete'>
+					                	th:data-category-name="${target.targetCategory.name}" data-type='delete'><i class="bi bi-x-square"></i>
 					        			Delete
 					        		</button>
 				                </td>
