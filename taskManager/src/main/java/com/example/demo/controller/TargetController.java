@@ -28,6 +28,7 @@ import com.example.demo.service.ProgramCategoryService;
 import com.example.demo.service.TargetCategoryService;
 import com.example.demo.service.TargetDocumentService;
 import com.example.demo.service.TargetService;
+import com.example.demo.service.TaskCategoryService;
 import com.example.demo.service.TaskService;
 
 import com.example.demo.util.DateChange;
@@ -45,6 +46,8 @@ public class TargetController {
 	ProgramCategoryService programCategoryService;
 	@Autowired
 	TargetCategoryService targetCategoryService;
+	@Autowired
+	TaskCategoryService taskCategoryService;
 	@Autowired
 	TaskService taskService;
 	@Autowired
@@ -84,14 +87,12 @@ public class TargetController {
 					.collect(Collectors.toList());
 		}
 		
-		List<ProgramCategory> programCategoryList = programCategoryService.getAll();
-		List<TargetCategory> targetCategoryList = targetCategoryService.getAll();
-		
 		model.addAttribute("tc", tc);
 		model.addAttribute("pc", pc);
 		model.addAttribute("targetList", targetList);
-		model.addAttribute("programCategoryList", programCategoryList);
-		model.addAttribute("targetCategoryList", targetCategoryList);
+		model.addAttribute("programCategoryList", programCategoryService.getAll());
+		model.addAttribute("targetCategoryList", targetCategoryService.getAll());
+		model.addAttribute("taskCategoryList", taskCategoryService.getAll());
 		return "target/index";
 	}
 	
@@ -182,14 +183,13 @@ public class TargetController {
 	@GetMapping(path = "{id}")
 	public String show(Model model, @PathVariable(value = "id") Integer id) {
 		Target target = targetService.getOne(id);
-		List<ProgramCategory> programCategoryList = programCategoryService.getAll();
-		List<TargetCategory> targetCategoryList = targetCategoryService.getAll();
 		List<Task> taskList = taskService.getByTargetId(id);
 		TargetDocument document = targetDocumentService.getByTargetId(id);
 		model.addAttribute("target", target);
 		model.addAttribute("taskList", taskList);
-		model.addAttribute("programCategoryList", programCategoryList);
-		model.addAttribute("targetCategoryList", targetCategoryList);
+		model.addAttribute("programCategoryList", programCategoryService.getAll());
+		model.addAttribute("targetCategoryList", targetCategoryService.getAll());
+		model.addAttribute("taskCategoryList", taskCategoryService.getAll());
 		model.addAttribute("document", document);
 		return "target/show";
 	}

@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.domain.ProgramCategory;
 import com.example.demo.service.ProgramCategoryService;
+import com.example.demo.service.TargetCategoryService;
+import com.example.demo.service.TaskCategoryService;
 import com.example.demo.util.IdValid;
 import com.example.demo.util.StringDuplicateValid;
 import com.example.demo.util.StringLengthValid;
@@ -27,6 +29,10 @@ public class ProgramCategoryController {
 	
 	@Autowired
 	ProgramCategoryService programCategoryService;
+	@Autowired
+	TargetCategoryService targetCategoryService;
+	@Autowired
+	TaskCategoryService taskCategoryService;
 	@Autowired
 	IdValid idValid;
 	@Autowired
@@ -43,7 +49,9 @@ public class ProgramCategoryController {
 	@GetMapping
 	public String index(Model model){
 		List<ProgramCategory> categoryList =  programCategoryService.getAll();
-		model.addAttribute("categoryList", categoryList);
+		model.addAttribute("programCategoryList", programCategoryService.getAll());
+		model.addAttribute("targetCategoryList", targetCategoryService.getAll());
+		model.addAttribute("taskCategoryList", taskCategoryService.getAll());
 		return "program-category/index";
 	}
 	

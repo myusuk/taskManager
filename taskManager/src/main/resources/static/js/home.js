@@ -1,8 +1,21 @@
 $(function(){
 	setInterval(showTime, 1000);
 	hideSideMenuLink();
+	menuHoverEvent();
 	sideMenuClickEvent();
 	
+	
+	//menu hover event
+	function menuHoverEvent(){
+		$('.secMenuList').hover(
+			function(){
+				$('.'+$(this).attr('id')).slideDown(400);
+			},
+		    function () {
+		      $('.'+$(this).attr('id')).slideUp(400);
+		    }
+		) 
+	}
 	
 	//side menu click event
 	function sideMenuClickEvent(){
