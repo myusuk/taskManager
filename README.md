@@ -8,7 +8,7 @@ Task management tool
 </div>
 <br>
 <div>
-  <p>[varsion]</p>
+  <p>[version]</p>
   <span>Java 11 </span>/
   <span>Spring-Boot 2.6.7 </span>/
   <span>Bootstrap 5.1.0 </span>/

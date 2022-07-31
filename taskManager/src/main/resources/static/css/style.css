@@ -4,32 +4,39 @@
 */
 
 
-*{
-	font-family: 'Poppins', sans-serif;
-}
-
 
 /*body*/
 body{
+	font-family: 'Poppins', sans-serif;
 	background-color: rgba(143, 188, 143, 0.1);
 }
 
 /*header*/
 header{
 	padding-left: 10px;
-	background-color: rgba(89, 101, 120, 0.4);
+	background-color: rgba(89, 101, 120, 1);
+	font-family: 'Playfair Display', serif;
 }
 
 header a:link, a:visited, a:hover, a:active{
 	color: white;
 }
 
+header .config-menu{
+	color: white;
+	margin: 20px 0 0 0;
+	padding-left: 250px;
+}
+
 /*footer*/
 footer{
-	background-color: rgba(89, 101, 120, 0.4);
+	background-color: rgba(89, 101, 120, 0.8);
 	width: 100%;
 	position: absolute;
     bottom: 0; 
+    border-top: solid;
+    border-color: rgba(255, 255, 255, 0.4);
+    border-width:thin;
 }
 
 footer legend{
@@ -154,6 +161,11 @@ h2{
 	color: white;
 }
 
+.side-menu .menu-title{
+	color: green;
+	cursor: default;
+}
+
 /*box*/
 .box{
 	background-color:white; 
@@ -186,4 +198,8 @@ h2{
 /*show box*/
 .show-box .task-contents{
 	float: left;
+}
+
+.show-box button{
+	margin-bottom: 5px;
 }

@@ -12,8 +12,8 @@
 			<div class="show-box">
 				<div class="container col-6 task-contents box">
 			    	<table class="table table-bordered">
-						<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#task-modal"
-						                th:data-id="${task.id}" data-type='update'>
+						<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#task-modal"
+						                th:data-id="${task.id}" data-type='update'><i class="bi bi-arrow-clockwise"></i>
 						        	Update
 						</button>
 			    		<tr>
@@ -66,10 +66,10 @@
 							<td th:text="${document == null} ? '-' : ${document.period}"></td>
 						</tr>
 					</table>
-					<button type="button" class="btn btn-primary" style="float:right" data-bs-toggle="modal" data-bs-target="#task-document-modal"
+					<button type="button" class="btn btn-success" style="float:right" data-bs-toggle="modal" data-bs-target="#task-document-modal"
 						                	th:data-id="${document == null} ? 'null' : ${document.id}" th:data-task-id="${task.id}"
-						                	th:data-type="${document == null}? 'create': 'update'"
-						                	th:text="${document == null}? 'Create': 'Update'">
+						                	th:data-type="${document == null}? 'create': 'update'"><i class="bi bi-arrow-clockwise"></i>
+						                	Update
 					</button>
 				</div>
 			</div>

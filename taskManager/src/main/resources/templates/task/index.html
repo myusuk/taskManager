@@ -41,7 +41,7 @@
 				</div>
 				<table class="table table-striped table-bordered table-condensed">
 					<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#task-modal"
-					   	data-type='create'>
+					   	data-type='create'><i class="bi bi-plus-square"></i>
 		        			Create
 		        	</button>
 		        	<thead>
@@ -75,7 +75,7 @@
 				                <td>
 					                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#task-modal" 
 					                	th:data-id="${task.id}" th:data-target-name="${task.target.name}" 
-					                	th:data-category-vame="${task.taskCategory.name} "data-type='delete'>
+					                	th:data-category-vame="${task.taskCategory.name} "data-type='delete'><i class="bi bi-x-square"></i>
 					        			Delete
 					        		</button>
 				                </td>
@@ -120,7 +120,7 @@
 					                <td>
 						                 <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#task-modal" 
 						                	th:data-id="${task.id}" th:data-target-name="${task.target.name}" 
-						                	th:data-category-vame="${task.taskCategory.name} "data-type='delete'>
+						                	th:data-category-vame="${task.taskCategory.name} "data-type='delete'><i class="bi bi-x-square"></i>
 						        			Delete
 						        		</button>
 					                </td>
