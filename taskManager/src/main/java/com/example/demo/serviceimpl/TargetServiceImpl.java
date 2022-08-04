@@ -17,7 +17,7 @@ public class TargetServiceImpl implements TargetService {
 	
 	@Override
 	public List<Target> getAll() {
-		return targetRepository.findAll();
+		return targetRepository.getAlla();
 	}
 
 	@Override

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 			xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
-<head lang="ja">
+<head lang="en">
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -25,22 +25,22 @@
 		</header>
 		<div class="row menu">
 			<div class="menu-text">
-				<ul>
-					<li class="secMenuList"><a id="goTop" href="/" class="h5"><i class="bi bi-house-door-fill"></i>  HOME </a></li>
-					<li id="targetCategoryMenu" class="secMenuList">
-						<a href="/" class="h5">Taget Catgory</a>
+				<ul >
+					<li class="col-3 secMenuList"><a id="goTop" href="/" class="h5"><i class="bi bi-house-door-fill"></i>  HOME </a></li>
+					<li id="targetCategoryMenu" class="col-3 secMenuList">
+						<a href="/" class="h5">Yearly</a>
 						<ul class="targetCategoryMenu section" th:each="targetCategory: ${targetCategoryList}">
 							<li class="col-12 li"><a th:href="@{/}" th:text="${targetCategory.name}"></a></li>
 						</ul>
 					</li>
-					<li id="programCategoryMenu" class="secMenuList">
-						<a href="/" class="h5">Program Category</a>
+					<li id="programCategoryMenu" class="col-3 secMenuList">
+						<a href="/" class="h5">Monthly</a>
 						<ul class="programCategoryMenu section" th:each="programCategory: ${programCategoryList}">
 							<li class="col-12 li"><a th:href="@{/}" th:text="${programCategory.name}"></a></li>
 						</ul>
 					</li>
-					<li id="taskCategoryMenu" class="secMenuList">
-						<a href="/" class="h5">Task Category</a>
+					<li id="taskCategoryMenu" class="col-3 secMenuList">
+						<a href="/" class="h5">Weekly</a>
 						<ul class="taskCategoryMenu section" th:each="taskCategory: ${taskCategoryList}">
 							<li class="col-12 li"><a th:href="@{/}" th:text="${taskCategory.name}"></a></li>
 						</ul>
@@ -59,7 +59,7 @@
 					</tr>
 					<tr>
 						<td id="taskManagementMenu" class="secList">
-							<span class="h5"><i class="bi bi-vector-pen"></i> Task Management</span>
+							<span class="h5"><i class="bi bi-vector-pen"></i> Task</span>
 							<ul class="taskManagementMenu section">
 								<li><a th:href="@{/target}">Target</a></li><hr size="1">
 								<li><a th:href="@{/task}">Task</a></li>
@@ -68,7 +68,7 @@
 					</tr>
 					<tr>
 						<td id="categoryManagementMenu" class="secList"> 
-							<span class="h5"><i class="bi bi-clipboard-check"></i> Category Management</span>
+							<span class="h5"><i class="bi bi-clipboard-check"></i> Category</span>
 							<ul class="categoryManagementMenu section">
 								<li><a th:href="@{/task-category}">Task Category</a></li><hr size="1">
 								<li><a th:href="@{/target-category}">Target Category</a></li><hr size="1">
@@ -88,6 +88,19 @@
 						<td id="analyticsMenu" class="secList"> 
 							<span class="h5"><i class="bi bi-graph-up"></i> Analytics</span>
 							<ul class="analyticsMenu section">
+								<li><a th:href="@{/}">Target</a></li><hr size="1">
+								<li><a th:href="@{/}">Task</a></li><hr size="1">
+								<li><a th:href="@{/}">Category</a></li><hr size="1">
+								<li><a th:href="@{/}">Sample</a></li>
+								<li><a th:href="@{/}">Sample</a></li>
+								<li><a th:href="@{/}">Sample</a></li>
+							</ul>
+						</td>
+					</tr>
+					<tr>
+						<td id="configMenu" class="secList"> 
+							<span class="h5"><i class="bi bi-gear"></i> Config</span>
+							<ul class="configMenu section">
 								<li><a th:href="@{/}">Sample</a></li>
 							</ul>
 						</td>

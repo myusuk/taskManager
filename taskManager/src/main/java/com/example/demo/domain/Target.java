@@ -1,5 +1,6 @@
 package com.example.demo.domain;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -53,6 +54,37 @@ public class Target {
 	@JsonIgnore
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "target")
 	private TargetDocument targetDocument;
+	
+	
+	private enum Status{
+		NOT_START,
+		PROCESSING,
+		COMPLATE;
+		
+		public List<Status> getStatusList(){
+			List<Status> list = new ArrayList<>();
+			for(Status s: Status.values()) {
+				list.add(s);
+			}
+			return list;
+		}
+	}
+	
+	private enum Impotance{
+		WORK,
+		PROJECT,
+		SELF_INVESTMENT,
+		LEANING,
+		HOBBY;
+		
+		public List<Impotance> getImpotanceList(){
+			List<Impotance> list = new ArrayList<>();
+			for(Impotance s: Impotance.values()) {
+				list.add(s);
+			}
+			return list;
+		}
+	}
 
 }
 

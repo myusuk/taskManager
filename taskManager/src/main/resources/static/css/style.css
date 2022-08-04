@@ -30,9 +30,9 @@ header .config-menu{
 
 /*footer*/
 footer{
-	background-color: rgba(89, 101, 120, 0.8);
+	background-color: rgba(89, 101, 120, 1);
 	width: 100%;
-	position: absolute;
+	position: fixed;
     bottom: 0; 
     border-top: solid;
     border-color: rgba(255, 255, 255, 0.4);
@@ -59,6 +59,9 @@ a{
 /*h*/
 h2{
 	margin: 10px 0;
+	padding: 5px 0 5px 30px;
+	font-family: "MS Pゴシック" ;
+	font-weight: bold;
 }
 
 
@@ -106,7 +109,7 @@ h2{
 	margin: 0;
 }
 
-.menu .li{
+.menu li{
 	padding: 15px;
 	margin: 5px 0;
 	text-align: center;
@@ -175,6 +178,7 @@ h2{
 	border: solid;
 	border-color: rgba(143, 188, 143, 0.5);
 	border-radius: 5px;
+	font-family: "MS Pゴシック" ;
 }
 
 .box a {
@@ -198,8 +202,37 @@ h2{
 /*show box*/
 .show-box .task-contents{
 	float: left;
+	font-family: "MS Pゴシック" ;
 }
 
 .show-box button{
 	margin-bottom: 5px;
 }
+
+/* modal */
+.modal{
+	font-family: "MS Pゴシック" ;
+}
+
+.modal label{
+	padding-top: 15px;
+	padding-bottom: 5px;
+}
+
+.modal h5{
+	font-weight: bold;
+}
+
+.modal .modal-body{
+	padding-top: 0;
+}
+
+.modal span{
+	margin-top: 15px;
+	margin-bottom: 5px;
+}
+
+.modal p{
+	font-weight: bold;
+}
+

@@ -13,6 +13,9 @@
 				<div>
 					<div class="filter">
 						<label>Target Category：</label>
+						<select multiple="multiple">
+							<option th:each="taskCategory: ${taskCategoryList}" th:text="${taskCategory.name}"></option>
+						</select>
 						<a th:href="@{/target(tc=0, pc=${pc})}" th:text="All" 
 									class="btn btn-outline-success"  th:value="0" th:classappend="${tc == 0}? 'active': ''"/>
 						<span th:each="targetCategory: ${targetCategoryList}">

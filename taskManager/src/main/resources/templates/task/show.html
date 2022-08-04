@@ -17,31 +17,31 @@
 						        	Update
 						</button>
 			    		<tr>
-			    			<th class="table-info">id</th>
+			    			<th class="table-success">id</th>
 			    			<td th:text="${task.id}"></td>
 			    		</tr>
 			    		<tr>
-			    			<th class="table-info">Target</th>
+			    			<th class="table-success">Target</th>
 			    			<td><a th:href="@{/target/} + ${task.targetId}" th:text="${task.target.name}"/></td>
 			    		</tr>
 			    		<tr>
-			    			<th class="table-info">Program</th>
+			    			<th class="table-success">Program</th>
 			    			<td th:text="${task.target.programCategory == null}? '-': ${task.target.programCategory.name}"></td>
 			    		</tr> 
 			    		<tr>
-			    			<th class="table-info">Category</th>
+			    			<th class="table-success">Category</th>
 			    			<td th:text="${task.taskCategory.name}"></td>
 			    		</tr>
 			    		<tr>
-			    			<th class="table-info">Start date</th>
+			    			<th class="table-success">Start date</th>
 			    			<td th:text="${task.startDate}"></td>
 			    		</tr>
 			    		<tr>
-			    			<th class="table-info">End date</th>
+			    			<th class="table-success">End date</th>
 			    			<td th:text="${task.endDate == null} ? '-' : ${task.endDate}"></td>
 			    		</tr>
 			    		<tr>
-			    			<th class="table-info">Report</th>
+			    			<th class="table-success">Report</th>
 			    			<td th:text="${task.report.isBlank()} ? '-' : ${task.report}"></td>
 			    		</tr>
 			    	</table>
@@ -50,19 +50,19 @@
 					<legend>Document</legend>
 					<table class="table table-bordered">
 						<tr>
-							<th class="col-1 table-info">Purpose</th>
+							<th class="col-1 table-success">Purpose</th>
 							<td class="col-4" th:text="${document == null} ? '-' : ${document.purpose}"></td>
 						</tr>
 						<tr>
-							<th class="table-info">Function</th>
+							<th class="table-success">Function</th>
 							<td th:text="${document == null} ? '-' : ${document.function}"></td>
 						</tr>
 						<tr>
-							<th class="table-info">Item</th>
+							<th class="table-success">Item</th>
 							<td th:text="${document == null} ? '-' : ${document.item}"></td>
 						</tr>
 						<tr>
-							<th class="table-info">Period</th>
+							<th class="table-success">Period</th>
 							<td th:text="${document == null} ? '-' : ${document.period}"></td>
 						</tr>
 					</table>

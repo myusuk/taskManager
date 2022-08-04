@@ -17,23 +17,23 @@
 						      Update
 						</button>
 			    		<tr>
-			    			<th class="table-info">Id</th>
+			    			<th class="table-success">Id</th>
 			    			<td th:text="${target.id}"></td>
 			    		</tr>
 			    		<tr>
-			    			<th class="table-info">Target Category</th>
+			    			<th class="table-success">Target Category</th>
 			    			<td th:text="${target.targetCategory.name}"></td>
 			    		</tr>
 			    		<tr>
-			    			<th class="table-info">Program Category</th>
+			    			<th class="table-success">Program Category</th>
 			    			 <td th:text="${target.programCategory == null}? '-': ${target.programCategory.name}"></td>
 			    		</tr>
 			    		<tr>
-			    			<th class="table-info">Start date</th>
+			    			<th class="table-success">Start date</th>
 			    			<td th:text="${target.startDate}"></td>
 			    		</tr>
 			    		<tr>
-			    			<th class="table-info">End date</th>
+			    			<th class="table-success">End date</th>
 			    			<td th:text="${target.endDate == null} ? '-' : ${target.endDate}"></td>
 			    		</tr>
 			    	</table>
@@ -63,19 +63,19 @@
 					<legend>Document</legend>
 					<table class="table table-bordered">
 						<tr>
-							<th class="col-1 table-info">Overview</th>
+							<th class="col-1 table-success">Overview</th>
 							<td class="col-4" th:text="${document == null} ? '-' : ${document.overview}"></td>
 						</tr>
 						<tr>
-							<th class="table-info">Purpose</th>
+							<th class="table-success">Purpose</th>
 							<td th:text="${document == null} ? '-' : ${document.purpose}"></td>
 						</tr>
 						<tr>
-							<th class="table-info">Function</th>
+							<th class="table-success">Function</th>
 							<td th:text="${document == null} ? '-' : ${document.function}"></td>
 						</tr>
 						<tr>
-							<th class="table-info">Period</th>
+							<th class="table-success">Period</th>
 							<td th:text="${document == null} ? '-' : ${document.period}"></td>
 						</tr>
 					</table>

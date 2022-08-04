@@ -1,5 +1,6 @@
 $(function(){
-	setInterval(showTime, 1000);
+	showTime();
+	setInterval(showTime, 60000);
 	hideSideMenuLink();
 	menuHoverEvent();
 	sideMenuClickEvent();
@@ -12,7 +13,7 @@ $(function(){
 				$('.'+$(this).attr('id')).slideDown(400);
 			},
 		    function () {
-		      $('.'+$(this).attr('id')).slideUp(400);
+		      $('.'+$(this).attr('id')).slideUp(250);
 		    }
 		) 
 	}
@@ -20,7 +21,7 @@ $(function(){
 	//side menu click event
 	function sideMenuClickEvent(){
 		$('.secList').on("click", function() {
-    		$('.'+$(this).attr('id')).slideToggle(400);
+    		$('.'+$(this).attr('id')).slideToggle(300);
 		})
 	}
 	
@@ -32,7 +33,7 @@ $(function(){
 	//show time
 	function showTime() {
 	  var today = new Date();
-	  $('#time').html(today.toDateString() + " " + today.getHours() + ":" + ('0' + today.getMinutes()).slice(-2) + ":" + ('0' + today.getSeconds()).slice(-2));
+	  $('#time').html(today.toDateString() + " " + today.getHours() + ":" + ('0' + today.getMinutes()).slice(-2));
 	}
 	
 	

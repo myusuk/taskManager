@@ -47,6 +47,11 @@ $(function(){
 	 *
 	 */
 	 
+	  $(function() {
+      $("#select").multipleSelect();
+    });
+
+	 
 	// show modal event
 	function modalEvent(){
 			$modal.target.on("show.bs.modal", function (event){
@@ -289,7 +294,7 @@ $(function(){
 							.find("#overview").val(targetDocument.overview).end()
 							.find("#purpose").val(targetDocument.purpose).end()
 							.find("#function").val(targetDocument.function).end()
-							.find("#period").val(targetDOcument.period).end();
+							.find("#period").val(targetDocument.period).end();
 					}).fail(function(res){
 						var message = "The error occured when get selected target document.";
 						$modal.targetDocument
@@ -403,5 +408,7 @@ $(function(){
 			})
 		return def.promise();
 	}
+	
+	
 	
 })
